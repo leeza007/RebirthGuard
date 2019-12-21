@@ -53,8 +53,9 @@ VOID GetOptions(CONST WCHAR* ModulePath, DWORD* OptionFlag, CHAR* KillFlag, DWOR
 	// Check sub options.
 	if (KillFlag)
 	{
-		for (DWORD i = 4; i <= 9; i++)
-			if (strstr(KillFlag, OptionStr[i]))	memcpy(KillFlag, strstr(File, OptionStr[i]) + strlen(OptionStr[i]) + 3, 4);
+		for (DWORD i = 3; i <= 9; i++)
+			if (strstr(KillFlag, OptionStr[i]))
+				memcpy(KillFlag, strstr(File, OptionStr[i]) + strlen(OptionStr[i]) + 3, 4);
 	}
 
 	// Check excepted modules.
@@ -73,7 +74,7 @@ VOID GetOptions(CONST WCHAR* ModulePath, DWORD* OptionFlag, CHAR* KillFlag, DWOR
 				WideCharToMultiByte(CP_ACP, 0, ModuleList.FullDllName.Buffer, -1, Except_Rebirth,		 (INT)wcslen(ModulePath), NULL, NULL);
 
 				strcat_s(Except_File_Integrity,	Size, OptionStr[11]);
-				strcat_s(Except_Rebirth,		Size, OptionStr[11]);
+				strcat_s(Except_Rebirth,		Size, OptionStr[12]);
 
 				if (strstr(File, Except_File_Integrity))	*ExceptFlag |= EXCEPT_FILE_INTEGRITY;
 				if (strstr(File, Except_Rebirth))			*ExceptFlag |= EXCEPT_REBIRTH;
