@@ -8,12 +8,12 @@
 #include "RebirthGuard.h"
 #include "AES.h"
 
-HANDLE hFile;
-DWORD FileSize;
-DWORD FileSize2;
 BYTE* Source = NULL;
+HANDLE hFile = NULL;
+DWORD Length;
 
-CONST BYTE Key[]	= { 0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6, 0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c };
+CONST BYTE IV[] = { 0x88, 0xCA, 0x61, 0xAF, 0xFF, 0x05, 0x0D, 0x96, 0x8F, 0x12, 0x27, 0xD0, 0x8B, 0xEC, 0x25, 0xE8 };
+CONST BYTE Key[] = { 0x2B, 0x7E, 0x15, 0x16, 0x28, 0xAE, 0xD2, 0xA6, 0xAB, 0xF7, 0x15, 0x88, 0x09, 0xCF, 0x4F, 0x3C };
 
 CONST BYTE EncryptedAPI_0[] = { 0xE3, 0xD9, 0xEE, 0xDF, 0xC8, 0xCC, 0xD9, 0xC8, 0xFE, 0xC8, 0xCE, 0xD9, 0xC4, 0xC2, 0xC3, 0xAD, }; // NtCreateSection
 CONST BYTE EncryptedAPI_1[] = { 0xE3, 0xD9, 0xE0, 0xCC, 0xDD, 0xFB, 0xC4, 0xC8, 0xDA, 0xE2, 0xCB, 0xFE, 0xC8, 0xCE, 0xD9, 0xC4, 0xC2, 0xC3, 0xAD, }; // NtMapViewOfSection
@@ -60,18 +60,16 @@ VOID DecryptFileToMem(BYTE* Buffer)
 	{
 		hFile = CreateFile(IniPath, FILE_READ_DATA, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
-		FileSize = GetFileSize(hFile, 0);
-		FileSize2 = PADDING(FileSize, 16);
+		Length = PADDING(GetFileSize(hFile, 0), 16);
 
-		Source = (BYTE*)malloc(FileSize2);
-		memset(Buffer, 0, FileSize2);
+		Source = (BYTE*)malloc(Length);
+		memset(Buffer, 0, Length);
 
-		ReadFile(hFile, Source, FileSize, NULL, NULL);
+		ReadFile(hFile, Source, Length, NULL, NULL);
 		CloseHandle(hFile);
 	}
 
-	for (DWORD i = 0; i < FileSize2; i += 16)
-		AES_ECB_Decrypt((BYTE*)Source + i, Key, Buffer + i, 16);
+	AES_CBC_Decrypt(Buffer, Source, Length, Key, IV);
 }
 
 //-------------------------------------------------------
@@ -79,7 +77,7 @@ VOID DecryptFileToMem(BYTE* Buffer)
 //-------------------------------------------------------
 VOID DecryptMem(CHAR* Buffer, SIZE_T API)
 {
-	if(API >= sizeof(CryptAPI) / sizeof(SIZE_T))	
+	if (API >= sizeof(CryptAPI) / sizeof(SIZE_T))
 		Detected(CURRENT_PROCESS, NULL, APICALL_Invalid_API, (PVOID)API, (PVOID)0);
 
 	SIZE_T Len = 0;
