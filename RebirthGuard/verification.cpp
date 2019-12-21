@@ -86,50 +86,50 @@ VOID ThreadCheck(PVOID StartAddress, DWORD type)
 	{
 		// Start address is not module memory.
 		if (IsModuleRegion(StartAddress, 0) == -1)
-			Detected(CURRENT_PROCESS, OptionStr[7], THREAD_StartAddress, StartAddress, (PVOID)(SIZE_T)type);
+			Detected(CURRENT_PROCESS, OptionStr[5], THREAD_StartAddress, StartAddress, (PVOID)(SIZE_T)type);
 
 		// Start address is writable.
 		else if (mbi.Protect == PAGE_EXECUTE_READWRITE || mbi.Protect == PAGE_EXECUTE_WRITECOPY)
-			Detected(CURRENT_PROCESS, OptionStr[7], THREAD_Protection, StartAddress, (PVOID)(SIZE_T)type);
+			Detected(CURRENT_PROCESS, OptionStr[5], THREAD_Protection, StartAddress, (PVOID)(SIZE_T)type);
 	}
 
 	if (Flag & ANTI_DLL_INJECTION)
 	{
 		// DLL Injection with LoadLibraryA in Kernel32.dll.
 		if (StartAddress == APICall(kernel32, 15))
-			Detected(CURRENT_PROCESS, OptionStr[4], DLL_INJECTION_Kernel32_LoadLibraryA, StartAddress, (PVOID)(SIZE_T)type);
+			Detected(CURRENT_PROCESS, OptionStr[8], DLL_INJECTION_Kernel32_LoadLibraryA, StartAddress, (PVOID)(SIZE_T)type);
 
 		// DLL Injection with LoadLibraryW in Kernel32.dll.
 		else if (StartAddress == APICall(kernel32, 16))
-			Detected(CURRENT_PROCESS, OptionStr[4], DLL_INJECTION_Kernel32_LoadLibraryW, StartAddress, (PVOID)(SIZE_T)type);
+			Detected(CURRENT_PROCESS, OptionStr[8], DLL_INJECTION_Kernel32_LoadLibraryW, StartAddress, (PVOID)(SIZE_T)type);
 
 		// DLL Injection with LoadLibraryExA in Kernel32.dll.
 		else if (StartAddress == APICall(kernel32, 17))
-			Detected(CURRENT_PROCESS, OptionStr[4], DLL_INJECTION_Kernel32_LoadLibraryExA, StartAddress, (PVOID)(SIZE_T)type);
+			Detected(CURRENT_PROCESS, OptionStr[8], DLL_INJECTION_Kernel32_LoadLibraryExA, StartAddress, (PVOID)(SIZE_T)type);
 
 		// DLL Injection with LoadLibraryExW in Kernel32.dll.
 		else if (StartAddress == APICall(kernel32, 18))
-			Detected(CURRENT_PROCESS, OptionStr[4], DLL_INJECTION_Kernel32_LoadLibraryExW, StartAddress, (PVOID)(SIZE_T)type);
+			Detected(CURRENT_PROCESS, OptionStr[8], DLL_INJECTION_Kernel32_LoadLibraryExW, StartAddress, (PVOID)(SIZE_T)type);
 
 		// DLL Injection with LoadLibraryA in KernelBase.dll.
 		else if (StartAddress == APICall(kernelbase, 15))
-			Detected(CURRENT_PROCESS, OptionStr[4], DLL_INJECTION_KernelBase_LoadLibraryA, StartAddress, (PVOID)(SIZE_T)type);
+			Detected(CURRENT_PROCESS, OptionStr[8], DLL_INJECTION_KernelBase_LoadLibraryA, StartAddress, (PVOID)(SIZE_T)type);
 
 		// DLL Injection with LoadLibraryW in KernelBase.dll.
 		else if (StartAddress == APICall(kernelbase, 16))
-			Detected(CURRENT_PROCESS, OptionStr[4], DLL_INJECTION_KernelBase_LoadLibraryW, StartAddress, (PVOID)(SIZE_T)type);
+			Detected(CURRENT_PROCESS, OptionStr[8], DLL_INJECTION_KernelBase_LoadLibraryW, StartAddress, (PVOID)(SIZE_T)type);
 
 		// DLL Injection with LoadLibraryExA in KernelBase.dll.
 		else if (StartAddress == APICall(kernelbase, 17))
-			Detected(CURRENT_PROCESS, OptionStr[4], DLL_INJECTION_KernelBase_LoadLibraryExA, StartAddress, (PVOID)(SIZE_T)type);
+			Detected(CURRENT_PROCESS, OptionStr[8], DLL_INJECTION_KernelBase_LoadLibraryExA, StartAddress, (PVOID)(SIZE_T)type);
 
 		// DLL Injection with LoadLibraryExW in KernelBase.dll.
 		else if (StartAddress == APICall(kernelbase, 18))
-			Detected(CURRENT_PROCESS, OptionStr[4], DLL_INJECTION_KernelBase_LoadLibraryExW, StartAddress, (PVOID)(SIZE_T)type);
+			Detected(CURRENT_PROCESS, OptionStr[8], DLL_INJECTION_KernelBase_LoadLibraryExW, StartAddress, (PVOID)(SIZE_T)type);
 
 		// DLL Injection with LdrLoadDll in ntdll.dll.
 		else if (StartAddress == APICall(ntdll, 19))
-			Detected(CURRENT_PROCESS, OptionStr[4], DLL_INJECTION_Ntdll_LdrLoadDll, StartAddress, (PVOID)(SIZE_T)type);
+			Detected(CURRENT_PROCESS, OptionStr[8], DLL_INJECTION_Ntdll_LdrLoadDll, StartAddress, (PVOID)(SIZE_T)type);
 	}	
 
 	if (Flag & THREAD_CHECK)
@@ -204,19 +204,19 @@ VOID MemoryCheck(HANDLE hProcess, DWORD pid)
 
 		// This region is not remapped.
 		if (mbi.Type == MEM_IMAGE)
-			Detected(hProcess, OptionStr[8], MEMORY_Image, Address, (PVOID)0);
+			Detected(hProcess, OptionStr[6], MEMORY_Image, Address, (PVOID)0);
 
 		// This region is private allocated, and WRITEABLE memory.
 		else if (mbi.Type == MEM_PRIVATE && (mbi.Protect & (PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY)))
-			Detected(hProcess, OptionStr[8], MEMORY_Private_Execute, Address, (PVOID)0);
+			Detected(hProcess, OptionStr[6], MEMORY_Private_Execute, Address, (PVOID)0);
 
 		// This region is not remapped.
 		else if (mbi.Protect == PAGE_EXECUTE_WRITECOPY && IsRemapped(hProcess, Address) == FALSE)
-			Detected(hProcess, OptionStr[8], MEMORY_NotRemapped, Address, (PVOID)0);
+			Detected(hProcess, OptionStr[6], MEMORY_NotRemapped, Address, (PVOID)0);
 
 		// This region's page protection is not restored.
 		else if (mbi.Protect == PAGE_EXECUTE_READWRITE || mbi.Protect == PAGE_EXECUTE_WRITECOPY)
-			Detected(hProcess, OptionStr[8], MEMORY_Execute_Write, Address, (PVOID)0);
+			Detected(hProcess, OptionStr[6], MEMORY_Execute_Write, Address, (PVOID)0);
 
 		// This region is invalid.
 		else if (mbi.Protect == PAGE_EXECUTE_READ || (IsModuleRegion(Address, 1) == (SIZE_T)myGetModuleHandle(NULL)))
@@ -226,10 +226,10 @@ VOID MemoryCheck(HANDLE hProcess, DWORD pid)
 			((_NtQueryVirtualMemory)APICall(ntdll, 4))(hProcess, Address, MemoryWorkingSetExList, &wsi, sizeof(wsi), 0);
 
 			if (wsi.VirtualAttributes.Locked == 0)
-				Detected(hProcess, OptionStr[8], MEMORY_Unlocked, Address, (PVOID)0);
+				Detected(hProcess, OptionStr[6], MEMORY_Unlocked, Address, (PVOID)0);
 
 			else if (*((BYTE*)&wsi.VirtualAttributes.Flags + 2) != 0x40)
-				Detected(hProcess, OptionStr[8], MEMORY_Unlocked_2, Address, (PVOID)0);
+				Detected(hProcess, OptionStr[6], MEMORY_Unlocked_2, Address, (PVOID)0);
 		}
 
 		Address = (PVOID)((SIZE_T)Address + mbi.RegionSize);
@@ -280,7 +280,7 @@ VOID ImageCheck(VOID)
 			if (*(SIZE_T*)(ModuleBase + i) != *(SIZE_T*)(MappedModule + i)
 				&& i != RtlUserThreadStart_offset
 				&& i - sizeof(SIZE_T) != RtlUserThreadStart_offset)
-				Detected(CURRENT_PROCESS, OptionStr[9], IMAGE_Fail, (PVOID)ModuleBase, (PVOID)0);
+				Detected(CURRENT_PROCESS, OptionStr[7], IMAGE_Fail, (PVOID)ModuleBase, (PVOID)0);
 		}
 
 		// Release memory of manually mapped module.
