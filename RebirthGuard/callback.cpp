@@ -117,15 +117,15 @@ LONG WINAPI Exception_Callback(EXCEPTION_POINTERS *pExceptionInfo)
 {
 	// Debugging event
 	if (pExceptionInfo->ExceptionRecord->ExceptionCode == STATUS_BREAKPOINT)
-		Detected(CURRENT_PROCESS, OptionStr[5], EXCEPTION_Debugging, (PVOID)0, (PVOID)0);
+		Detected(CURRENT_PROCESS, OptionStr[9], EXCEPTION_Debugging, (PVOID)0, (PVOID)0);
 
 	// Trap flag is enabled.
 	else if (pExceptionInfo->ExceptionRecord->ExceptionCode == STATUS_SINGLE_STEP)
-		Detected(CURRENT_PROCESS, OptionStr[5], EXCEPTION_Single_Step, (PVOID)0, (PVOID)0);
+		Detected(CURRENT_PROCESS, OptionStr[9], EXCEPTION_Single_Step, (PVOID)0, (PVOID)0);
 
 	// This page protection is PAGE_GUARD.
 	else if (pExceptionInfo->ExceptionRecord->ExceptionCode == STATUS_GUARD_PAGE_VIOLATION)
-		Detected(CURRENT_PROCESS, OptionStr[5], EXCEPTION_Guarded_Page, (PVOID)0, (PVOID)0);
+		Detected(CURRENT_PROCESS, OptionStr[9], EXCEPTION_Guarded_Page, (PVOID)0, (PVOID)0);
 
 	return EXCEPTION_CONTINUE_SEARCH;
 }
