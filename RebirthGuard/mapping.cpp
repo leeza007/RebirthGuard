@@ -20,7 +20,7 @@ SIZE_T ManualMap(HANDLE hProcess, CONST WCHAR* ModulePath)
 
 	// 1. Check the file integrity.
 	if ((Flag & FILE_INTEGRITY) && !(ExceptFlag & EXCEPT_FILE_INTEGRITY) && !FileIntegrity(ModulePath))
-		Detected(hProcess, OptionStr[6], FILE_INTEGRITY_Fail, (PVOID)myGetModuleHandle(ModulePath), (PVOID)0);
+		Detected(hProcess, OptionStr[3], FILE_INTEGRITY_Fail, (PVOID)myGetModuleHandle(ModulePath), (PVOID)0);
 
 	// 2. Load the file to memory.
 	HANDLE	hFile		= CreateFile(ModulePath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, NULL, NULL);
