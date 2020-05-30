@@ -7,9 +7,9 @@ This library is based on *__Section remapping__* technique.
 
 In this project, *__Rebirth__* is meaning *__Section remap__* and *__Force page protection__*.
 
-Developed with Windows 10 1909 / Visual Studio Community 2017
+Developed with Windows 10 1909 / Visual Studio Community 2017.
 
-### Capabilites
+## Capabilites:
 * Module remapping
 * Process policy
 * File integrity check
@@ -19,3 +19,6 @@ Developed with Windows 10 1909 / Visual Studio Community 2017
 * Anti-DLL Injection
 * Anti-Debugging
 * Exception handling
+
+## How to use:
+- will be added -
