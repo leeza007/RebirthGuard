@@ -21,4 +21,4 @@ Developed with Windows 10 1909 / Visual Studio Community 2017.
 * Exception handling
 
 ## How to use:
-- will be added -
+will be added -
