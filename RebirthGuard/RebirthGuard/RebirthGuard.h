@@ -13,7 +13,7 @@
 
 
 //-----------------------------------------------------------------
-//	RebirthGuard Build Options
+//	RebirthGuard Compile Options
 //-----------------------------------------------------------------
 #define DISABLE									0x00000000
 #define ENABLE									0x00000001
