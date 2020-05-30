@@ -26,3 +26,8 @@ Developed with Windows 10 1909 / Visual Studio Community 2017.
 
 ## How to use:
 will be added -
+
+
+## References
+https://github.com/changeofpace/Self-Remapping-Code
+
