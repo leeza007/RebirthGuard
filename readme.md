@@ -8,6 +8,7 @@ This library is based on *__Section remapping__* technique.
 In this project, *__Rebirth__* is meaning *__Section remap__* and *__Force page protection__*.
 
 ### Capabilites
+* Module remapping
 * Process policy
 * File integrity check
 * Thread filtering
