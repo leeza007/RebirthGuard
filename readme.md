@@ -25,10 +25,10 @@ Developed with Windows 10 version 1909 / Visual Studio Community 2017.
 
 
 ## How to use:
-0. Setting.h
-1. Include "RebirthGuard.h" and "RebirthGuard.lib".
-2. Compile your project.
-
+0. Set RebirthGuard Options in *__Setting.h__*
+1. Include *__RebirthGuard.h__* and *__RebirthGuard.lib__*
+2. Call *__MemInfoCheck__* and *__CRCCheck__* functions when you want.
+3. Compile your project.
 
 
 ## References
