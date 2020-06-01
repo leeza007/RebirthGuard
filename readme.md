@@ -2,7 +2,6 @@
 
 ## The Windows EXE Runtime Protection Library (x64)
 
-
 RebirthGuard is a Windows User-level protection library written on C.
 
 This library is based on *__Section remapping__* technique.
@@ -11,14 +10,16 @@ In this project, *__Rebirth__* means *__Section remap__* and *__Force page prote
 
 Developed using Windows 10 version 1909 / Visual Studio Community 2017.
 
+## Motive
+PUBG Anti-cheat : Xenuine 
 
 ## :page_facing_up: Capabilites:
-* __Module remapping__ `(Force page protection)`
+* __Module remapping__ (Force page protection)
 * __Process policy__
 * __File integrity check__
 * __Thread filtering__
 * __Memory check__
-* __CRC check__ `(Hide from debugger)`
+* __CRC check__ (Hide from debugger)
 * __Anti-DLL Injection__
 * __Anti-Debugging__
 * __Exception handling__
