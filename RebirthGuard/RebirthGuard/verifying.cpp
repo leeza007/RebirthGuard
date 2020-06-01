@@ -8,15 +8,15 @@
 #include "RebirthGuard.h"
 
 
-//-------------------------------------------------------
+//-----------------------------------------------------------------
 //	Check Whitelist
-//-------------------------------------------------------
+//-----------------------------------------------------------------
 DWORD IsExcepted(CONST WCHAR* ModulePath)
 {
 	DWORD Flag = 0;
 
-	for (int i = 0; Whitelist_Rebirth[i][0] != 0; i++)
-		if (mywcsistr(ModulePath, Whitelist_Rebirth[i]))
+	for (int i = 0; Whitelist_ForcePageProtection[i][0] != 0; i++)
+		if (mywcsistr(ModulePath, Whitelist_ForcePageProtection[i]))
 			Flag |= EXCEPT_REBIRTH;
 
 	for (int i = 0; Whitelist_FileCheck[i][0] != 0; i++)
@@ -305,7 +305,7 @@ VOID CRCCheck(VOID)
 		if (!(IsExcepted(ModulePath) & EXCEPT_REBIRTH) && !(mbi.Protect & PAGE_WRITECOPY))
 		{
 			// Mapping mirror view to CRC check.
-#if USING_MIRROR_VIEW & ENABLE
+#if _HIDE_FROM_DEBUGGER & ENABLE
 			for (int i = 0;; i++)
 			{
 				if (SectionList[i].CRC == NULL)
@@ -347,7 +347,7 @@ VOID CRCCheck(VOID)
 				Report(CURRENT_PROCESS, CRC_CHECK, CRCCheck_Integrity, (PVOID)myGetModuleHandleEx(CURRENT_PROCESS, List.FullDllName.Buffer), (PVOID)0);
 
 			// Unmapping mirror view
-#if USING_MIRROR_VIEW & ENABLE
+#if _HIDE_FROM_DEBUGGER & ENABLE
 			((_NtUnmapViewOfSection)APICall(ntdll, APICall_NtUnmapViewOfSection))(CURRENT_PROCESS, ModuleBase);
 #endif
 

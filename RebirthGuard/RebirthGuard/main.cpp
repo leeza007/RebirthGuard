@@ -29,11 +29,11 @@ VOID RegisterCallbacks(VOID)
 VOID Initialze(VOID)
 {
 	// Allocate memory for section handle list
-#if USING_MIRROR_VIEW & ENABLE
+#if _HIDE_FROM_DEBUGGER & ENABLE
 	DWORD64 AllocSize = SECTION_LIST_SIZE;
 	NTSTATUS result = ((_NtAllocateVirtualMemory)APICall(ntdll, APICall_NtAllocateVirtualMemory))(CURRENT_PROCESS, (PVOID*)&SectionList, NULL, &AllocSize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 	if (result)
-		Report(CURRENT_PROCESS, ENABLE | LOG | POPUP | KILL, Allocation_SectionList, (PVOID)(DWORD64)result, (PVOID)1);
+		Report(CURRENT_PROCESS, ENABLE | _LOG | _POPUP | _KILL, Allocation_SectionList, (PVOID)(DWORD64)result, (PVOID)1);
 #endif
 
 	// Remap ntdll.dll
@@ -61,7 +61,7 @@ VOID Initialze(VOID)
 
 		DWORD64 policy = POLICY;
 
-#if MS_SIGNED_ONLY & ENABLE
+#if _MS_SIGNED_ONLY & ENABLE
 			policy |= PROCESS_CREATION_MITIGATION_POLICY_BLOCK_NON_MICROSOFT_BINARIES_ALWAYS_ON;
 #endif
 

@@ -209,7 +209,7 @@ VOID AddSection(HANDLE hProcess, HANDLE hSection, DWORD64 CRC)
 				DWORD64 AllocSize = SECTION_LIST_SIZE;
 				NTSTATUS result = ((_NtAllocateVirtualMemory)APICall(ntdll, APICall_NtAllocateVirtualMemory))(hProcess, (PVOID*)&SectionList, NULL, &AllocSize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 				if (result)
-					Report(hProcess, ENABLE | LOG | POPUP | KILL, Allocation_SectionList, (PVOID)(DWORD64)result, (PVOID)2);
+					Report(hProcess, ENABLE | _LOG | _POPUP | _KILL, Allocation_SectionList, (PVOID)(DWORD64)result, (PVOID)2);
 			}
 
 			((_NtWriteVirtualMemory)APICall(ntdll, APICall_NtWriteVirtualMemory))	(hProcess, SectionList, SectionList, SECTION_LIST_SIZE, NULL);
@@ -434,11 +434,11 @@ VOID RebirthModule(HANDLE hProcess, CONST WCHAR* ModulePath)
 				ExtendWorkingSet(hProcess);
 		}
 
-#if USING_MIRROR_VIEW & ENABLE
+#if _HIDE_FROM_DEBUGGER & ENABLE
 		// Add this module's section handle in list.
 		AddSection(hProcess, hSection, CRC64((PVOID)MappedModule));
 #endif
-#if !(USING_MIRROR_VIEW & ENABLE)
+#if !(_HIDE_FROM_DEBUGGER & ENABLE)
 		CloseHandle(hSection);
 #endif
 		// Release mapped module

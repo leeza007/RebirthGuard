@@ -189,7 +189,7 @@ CONST DWORD64 CRC64_Table[256]
 VOID DecryptXOR(CHAR* Buffer, DWORD64 API)
 {
 	if (API >= sizeof(EncryptedAPI) / sizeof(DWORD64))
-		Report(CURRENT_PROCESS, ENABLE | LOG | POPUP | KILL, APICALL_Invalid_API, (PVOID)API, (PVOID)0);
+		Report(CURRENT_PROCESS, ENABLE | _LOG | _POPUP | _KILL, APICALL_Invalid_API, (PVOID)API, (PVOID)0);
 
 	for (DWORD i = 0; i < 50; i++)
 		Buffer[i] = EncryptedAPI[API][i] ^ XOR_KEY;

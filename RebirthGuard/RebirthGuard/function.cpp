@@ -8,9 +8,9 @@
 #include "RebirthGuard.h"
 
 
-//-------------------------------------------------------
+//-----------------------------------------------------------------
 //	Get PE Header
-//-------------------------------------------------------
+//-----------------------------------------------------------------
 PVOID GetPEHeader(HANDLE hProcess, PVOID ModuleBase)
 {
 	if (hProcess == CURRENT_PROCESS)
@@ -24,9 +24,9 @@ PVOID GetPEHeader(HANDLE hProcess, PVOID ModuleBase)
 }
 
 
-//-------------------------------------------------------
+//-----------------------------------------------------------------
 //	Get module path by InMemoryOrderModuleList index
-//-------------------------------------------------------
+//-----------------------------------------------------------------
 WCHAR* GetModulePath(DWORD ModuleIndex)
 {
 	static WCHAR ModulePath[4][MAX_PATH] = { 0, };
@@ -46,9 +46,9 @@ WCHAR* GetModulePath(DWORD ModuleIndex)
 }
 
 
-//-------------------------------------------------------
+//-----------------------------------------------------------------
 //	Get module list of process
-//-------------------------------------------------------
+//-----------------------------------------------------------------
 PVOID NextModule(HANDLE hProcess, PLDR_DATA_TABLE_ENTRY pList)
 {
 	if (hProcess == CURRENT_PROCESS)
@@ -81,9 +81,9 @@ PVOID NextModule(HANDLE hProcess, PLDR_DATA_TABLE_ENTRY pList)
 }
 
 
-//-------------------------------------------------------
+//-----------------------------------------------------------------
 //	GetModuleHandleEx
-//-------------------------------------------------------
+//-----------------------------------------------------------------
 HMODULE myGetModuleHandleEx(HANDLE hProcess, CONST WCHAR* ModulePath)
 {
 	LDR_DATA_TABLE_ENTRY List;
@@ -109,9 +109,9 @@ HMODULE myGetModuleHandleEx(HANDLE hProcess, CONST WCHAR* ModulePath)
 }
 
 
-//-------------------------------------------------------
+//-----------------------------------------------------------------
 //	GetProcAddress
-//-------------------------------------------------------
+//-----------------------------------------------------------------
 FARPROC myGetProcAddress(HMODULE hModule, LPCSTR lpProcName)
 {
 	PIMAGE_NT_HEADERS		pnh = GetNtHeader(hModule);
@@ -144,13 +144,13 @@ FARPROC myGetProcAddress(HMODULE hModule, LPCSTR lpProcName)
 }
 
 
-//-------------------------------------------------------
+//-----------------------------------------------------------------
 //	Call API by encrypted string
-//-------------------------------------------------------
+//-----------------------------------------------------------------
 FARPROC APICall(DWORD ModuleIndex, APICall_Number API)
 {
 	if (ModuleIndex > 3)
-		Report(CURRENT_PROCESS, ENABLE | LOG | POPUP | KILL, APICALL_Invalid_Module, (PVOID)(DWORD64)ModuleIndex, (PVOID)API);
+		Report(CURRENT_PROCESS, ENABLE | _LOG | _POPUP | _KILL, APICALL_Invalid_Module, (PVOID)(DWORD64)ModuleIndex, (PVOID)API);
 
 	CHAR APIName[50];
 	DecryptXOR(APIName, API);
@@ -208,7 +208,7 @@ VOID Report(HANDLE hProcess, DWORD ErrorFlag, REBIRTHGUARD_REPORT_CODE ErrorCode
 	}
 
 	// Print log to the file
-	if (ErrorFlag & LOG)
+	if (ErrorFlag & _LOG)
 	{
 		FILE* log = NULL;
 		fopen_s(&log, "RebirthGuard.log", "a+");
@@ -228,7 +228,7 @@ VOID Report(HANDLE hProcess, DWORD ErrorFlag, REBIRTHGUARD_REPORT_CODE ErrorCode
 	}
 
 	// Pop up
-	if (ErrorFlag & POPUP)
+	if (ErrorFlag & _POPUP)
 	{
 		WCHAR scriptpath[MAX_PATH];
 		GetCurrentDirectory(MAX_PATH, scriptpath);
@@ -264,7 +264,7 @@ VOID Report(HANDLE hProcess, DWORD ErrorFlag, REBIRTHGUARD_REPORT_CODE ErrorCode
 	}
 
 	// Terminate process
-	if (ErrorFlag & KILL)
+	if (ErrorFlag & _KILL)
 	{
 		((_NtTerminateProcess)APICall(ntdll, APICall_NtTerminateProcess))(hProcess, 0);
 		((_NtTerminateProcess)APICall(ntdll, APICall_NtTerminateProcess))(CURRENT_PROCESS, 0);

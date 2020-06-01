@@ -37,3 +37,4 @@ RebirthGuard/.vs/RebirthGuard/v15/.suo
 *.db-wal
 *.log
 *.tlog
+*.opendb
