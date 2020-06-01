@@ -31,6 +31,32 @@ Developed using Windows 10 version 1909 / Visual Studio Community 2017.
 4. Add linker option : *__/RELEASE__*
 5. Compile your project.
 
+## Example :
+```
+#include <Windows.h>
+#include <stdio.h>
+#include <RebirthGuardSDK.h>
+#pragma comment (lib, "RebirthGuard.lib")
+
+int main(void)
+{
+	printf("RebirthGuard Test\n\n");
+
+	for (int i = 0;; i++)
+	{
+		printf("%d\n", i);
+
+		MemInfoCheck(GetCurrentProcess(), GetCurrentProcessId());
+
+		CRCCheck();
+
+		Sleep(3000);
+	}
+
+	return 0;
+}
+```
+
 
 ## References
 https://github.com/changeofpace/Self-Remapping-Code
