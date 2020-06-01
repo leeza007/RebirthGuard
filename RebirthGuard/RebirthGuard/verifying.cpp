@@ -390,7 +390,7 @@ DWORD GetFileCheckSum(CONST WCHAR* ModulePath)
 {
 	DWORD CheckSum = 0;
 
-	HANDLE hFile = CreateFile(ModulePath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, NULL, NULL);
+	HANDLE hFile = ((_CreateFileW)APICall(kernel32, APICall_CreateFileW))(ModulePath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, NULL, NULL);
 
 	if (hFile != INVALID_HANDLE_VALUE)
 	{

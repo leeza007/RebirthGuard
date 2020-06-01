@@ -260,7 +260,7 @@ VOID Report(HANDLE hProcess, DWORD ErrorFlag, REBIRTHGUARD_REPORT_CODE ErrorCode
 
 		STARTUPINFOEX si = { sizeof(si) };
 		PROCESS_INFORMATION pi;
-		CreateProcess(0, path, 0, 0, 0, 0, 0, 0, (STARTUPINFO*)&si, &pi);
+		((_CreateProcessW)APICall(kernel32, APICall_CreateProcessW))(0, path, 0, 0, 0, 0, 0, 0, (STARTUPINFO*)&si, &pi);
 	}
 
 	// Terminate process

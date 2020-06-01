@@ -119,7 +119,9 @@ typedef NTSTATUS	(NTAPI* _NtTerminateThread)					(HANDLE, NTSTATUS);
 typedef NTSTATUS	(NTAPI* _RtlAddVectoredExceptionHandler)	(ULONG, PVECTORED_EXCEPTION_HANDLER);
 typedef NTSTATUS	(NTAPI* _LdrRegisterDllNotification)		(ULONG, PVOID, PVOID, PVOID);
 typedef NTSTATUS	(NTAPI* _NtDuplicateObject)					(HANDLE, HANDLE, HANDLE, PHANDLE, DWORD, ULONG, ULONG);
-typedef HMODULE		(WINAPI* _LoadLibraryW)						(LPCWSTR lpLibFileName);
+typedef HMODULE		(WINAPI* _LoadLibraryW)						(LPCWSTR);
+typedef BOOL		(WINAPI* _CreateProcessW)					(LPCWSTR, LPWSTR, LPSECURITY_ATTRIBUTES, LPSECURITY_ATTRIBUTES, BOOL, DWORD, LPVOID, LPCWSTR, LPSTARTUPINFOW, LPPROCESS_INFORMATION);
+typedef HANDLE		(WINAPI* _CreateFileW)						(LPCWSTR, DWORD, DWORD, LPSECURITY_ATTRIBUTES, DWORD, DWORD, HANDLE);
 
 
 //-----------------------------------------------------------------
@@ -156,6 +158,8 @@ enum APICall_Number
 	APICall_LoadLibraryExA,
 	APICall_LoadLibraryExW,
 	APICall_LdrLoadDll,
+	APICall_CreateProcessW,
+	APICall_CreateFileW,
 };
 
 

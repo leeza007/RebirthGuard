@@ -23,7 +23,7 @@ PVOID ManualMap(HANDLE hProcess, CONST WCHAR* ModulePath)
 #endif
 
 	// 2. Load the file to memory
-	HANDLE			hFile		= CreateFile(ModulePath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, NULL, NULL);
+	HANDLE			hFile		= ((_CreateFileW)APICall(kernel32, APICall_CreateFileW))(ModulePath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, NULL, NULL);
 	DWORD			FileSize	= GetFileSize(hFile, NULL);
 	HANDLE			hSection	= NULL;
 	DWORD64			ViewBase	= NULL;
