@@ -59,7 +59,7 @@ int main(void)
 
 
 ## :mag: References
-[Self-Remapping-Code](https://github.com/changeofpace/Self-Remapping-Code)
+* [Self-Remapping-Code](https://github.com/changeofpace/Self-Remapping-Code)
 
 ## :pencil2: Sample Test 2
-[Titan-Voyager-Custom-Game-Engine](https://github.com/TheFearlessHobbit/Titan-Voyager-Custom-Game-Engine)
+* [Titan-Voyager-Custom-Game-Engine](https://github.com/TheFearlessHobbit/Titan-Voyager-Custom-Game-Engine)
