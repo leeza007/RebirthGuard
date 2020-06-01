@@ -29,7 +29,7 @@ Developed using Windows 10 version 1909 / Visual Studio Community 2017.
 1. Set RebirthGuard Options in *__Settings.h__*
 2. Complie RebirthGuard.
 3. Include *__RebirthGuardSDK.h__* and *__RebirthGuard.lib__* in your project.
-4. Add linker option : *__/RELEASE__*
+4. Add linker option : *__/RELEASE__* (if FILE_CHECK is enabled)
 5. Compile your project.
 
 ## :memo: Example :
