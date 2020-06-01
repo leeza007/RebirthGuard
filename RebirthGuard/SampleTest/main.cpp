@@ -1,5 +1,4 @@
 
-#include <Windows.h>
 #include <stdio.h>
 #include <RebirthGuardSDK.h>
 #pragma comment (lib, "RebirthGuard.lib")
