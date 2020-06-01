@@ -33,7 +33,6 @@ Developed using Windows 10 version 1909 / Visual Studio Community 2017.
 
 ## Example :
 ```C
-#include <Windows.h>
 #include <stdio.h>
 #include <RebirthGuardSDK.h>
 #pragma comment (lib, "RebirthGuard.lib")
