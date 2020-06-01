@@ -2,7 +2,7 @@
 
 ## Windows EXE Runtime Protection Library (x64)
 
-RebirthGuard is a User-level(Ring 3) library written on C.
+RebirthGuard is a User-level(ring 3) library written on C.
 
 This library is based on *__Section remapping__* and *__Manual mapping__* technique.
 
