@@ -236,6 +236,7 @@ VOID DestoryModule(HANDLE hProcess)
 //-----------------------------------------------------------------
 VOID MemCheck(HANDLE hProcess, DWORD pid)
 {
+#if MEM_CHECK & ENABLE
 	// Destory module memory
 	DestoryModule(hProcess);
 
@@ -278,6 +279,7 @@ VOID MemCheck(HANDLE hProcess, DWORD pid)
 
 		Address = (PVOID)((DWORD64)Address + mbi.RegionSize);
 	}
+#endif
 }
 
 
@@ -286,6 +288,7 @@ VOID MemCheck(HANDLE hProcess, DWORD pid)
 //-----------------------------------------------------------------------
 VOID CRCCheck(VOID)
 {
+#if CRC_CHECK & ENABLE
 	LDR_DATA_TABLE_ENTRY List;
 	*(DWORD64*)&List = 0;
 
@@ -351,6 +354,7 @@ VOID CRCCheck(VOID)
 			((_NtFreeVirtualMemory)APICall(ntdll, APICall_NtFreeVirtualMemory))(CURRENT_PROCESS, (PVOID*)&MappedModule, &ImageSize, MEM_RELEASE);
 		}
 	}
+#endif
 }
 
 

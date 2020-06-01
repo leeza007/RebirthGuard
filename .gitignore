@@ -27,3 +27,6 @@
 # Executables
 *.out
 *.app
+
+# Debugs
+*.pdb
