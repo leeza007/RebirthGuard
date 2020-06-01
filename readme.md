@@ -4,7 +4,7 @@
 
 RebirthGuard is a Windows User-level protection library written on C.
 
-This library is based on *__Section remapping__* technique.
+This library is based on *__Section remapping__* and *__Manual mapping__* technique.
 
 In this project, *__Rebirth__* means *__Section remap__* and *__Force page protection__*.
 
