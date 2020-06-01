@@ -13,12 +13,12 @@ Developed using Windows 10 version 1909 / Visual Studio Community 2017.
 
 
 ## :page_facing_up: Capabilites:
-* __Module remapping__ 'Force page protection'
+* __Module remapping__ `Force page protection`
 * __Process policy__
 * __File integrity check__
 * __Thread filtering__
 * __Memory check__
-* __CRC check__ 'Hide from debugger'
+* __CRC check__ `Hide from debugger`
 * __Anti-DLL Injection__
 * __Anti-Debugging__
 * __Exception handling__
@@ -26,10 +26,10 @@ Developed using Windows 10 version 1909 / Visual Studio Community 2017.
 
 
 ## :wrench: How to use:
-1. Set RebirthGuard Options in 'Settings.h'
+1. Set RebirthGuard Options in `Settings.h`
 2. Complie RebirthGuard.
-3. Include 'RebirthGuardSDK.h' and 'RebirthGuard.lib' in your project.
-4. Add linker option : '/RELEASE' (If 'FILE_CHECK' option is enabled)
+3. Include `RebirthGuardSDK.h` and `RebirthGuard.lib` in your project.
+4. Add linker option : `/RELEASE` (If `FILE_CHECK` option is enabled)
 5. Compile your project.
 
 ## :memo: Example :
