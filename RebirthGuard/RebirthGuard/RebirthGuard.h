@@ -204,7 +204,7 @@ VOID					Report				(HANDLE hProcess, DWORD ErrorFlag, REBIRTHGUARD_REPORT_CODE E
 PVOID					ManualMap			(HANDLE hProcess, CONST WCHAR* ModulePath);
 VOID					ExtendWorkingSet	(HANDLE hProcess);
 VOID					AddSection			(HANDLE hProcess, HANDLE hSection, DWORD64 CRC);
-VOID					RemapModule			(HANDLE hProcess, CONST WCHAR* ModulePath);
+VOID					RebirthModule		(HANDLE hProcess, CONST WCHAR* ModulePath);
 
 /* verifying.cpp */
 DWORD					IsExcepted			(CONST WCHAR* ModulePath);

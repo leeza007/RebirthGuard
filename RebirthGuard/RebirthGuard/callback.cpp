@@ -94,7 +94,7 @@ VOID DLL_Callback(ULONG notification_reason, CONST LDR_DLL_NOTIFICATION_DATA* no
 		DWORD64 Size = PAGE_SIZE;
 		PVOID Address = notification_data->Loaded.DllBase;
 		((_NtProtectVirtualMemory)APICall(ntdll, APICall_NtProtectVirtualMemory))(CURRENT_PROCESS, &Address, &Size, PAGE_WRITECOPY, &OldProtect);
-		RemapModule(CURRENT_PROCESS, notification_data->Loaded.FullDllName->Buffer);
+		RebirthModule(CURRENT_PROCESS, notification_data->Loaded.FullDllName->Buffer);
 	}
 
 	return;

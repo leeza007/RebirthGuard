@@ -220,7 +220,7 @@ VOID AddSection(HANDLE hProcess, HANDLE hSection, DWORD64 CRC)
 //  7. Remap with SEC_NO_CHANGE flag
 //  8. Lock memory
 //-------------------------------------------------------
-VOID RemapModule(HANDLE hProcess, CONST WCHAR* ModulePath)
+VOID RebirthModule(HANDLE hProcess, CONST WCHAR* ModulePath)
 {
 	// Get ntdll.dll path and address
 	HMODULE origin_ntdll			= myGetModuleHandleEx(CURRENT_PROCESS, GetModulePath(ntdll));

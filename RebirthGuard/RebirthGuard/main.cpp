@@ -37,7 +37,7 @@ VOID Initialze(VOID)
 #endif
 
 	// Remap ntdll.dll
-	RemapModule(CURRENT_PROCESS, GetModulePath(ntdll));
+	RebirthModule(CURRENT_PROCESS, GetModulePath(ntdll));
 
 	// Check this program is rebirthed
 	if (IsRebirthed(CURRENT_PROCESS, myGetModuleHandleEx(CURRENT_PROCESS, NULL)) == NULL)
@@ -86,7 +86,7 @@ VOID Initialze(VOID)
 		{
 			WCHAR ModulePath[MAX_PATH];
 			((_NtReadVirtualMemory)APICall(ntdll, APICall_NtReadVirtualMemory))(pi.hProcess, *(PVOID*)((BYTE*)&List + 0x40), ModulePath, MAX_PATH, NULL);
-			RemapModule(pi.hProcess, ModulePath);
+			RebirthModule(pi.hProcess, ModulePath);
 		}
 
 		// Memory info check
