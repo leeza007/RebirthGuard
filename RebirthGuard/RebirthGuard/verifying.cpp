@@ -234,7 +234,7 @@ VOID DestoryModule(HANDLE hProcess)
 //-----------------------------------------------------------------
 //	Check the all memory region
 //-----------------------------------------------------------------
-VOID MemInfoCheck(HANDLE hProcess, DWORD pid)
+VOID MemCheck(HANDLE hProcess, DWORD pid)
 {
 	// Destory module memory
 	DestoryModule(hProcess);
@@ -248,19 +248,19 @@ VOID MemInfoCheck(HANDLE hProcess, DWORD pid)
 
 		// This region is not rebirthed
 		if (mbi.Type == MEM_IMAGE && !(mbi.Protect & PAGE_WRITECOPY))
-			Report(hProcess, MEM_INFO_CHECK, MEMORY_Image, Address, (PVOID)0);
+			Report(hProcess, MEM_CHECK, MEMORY_Image, Address, (PVOID)0);
 
 		// This region is EXECUTABLE but is not in module
 		else if (mbi.Protect & (PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY) && IsInModule(hProcess, Address, 2) == -1)
-			Report(hProcess, MEM_INFO_CHECK, MEMORY_Private_Execute, Address, (PVOID)0);
+			Report(hProcess, MEM_CHECK, MEMORY_Private_Execute, Address, (PVOID)0);
 
 		// This region is not rebirthed
 		else if (mbi.Protect == PAGE_EXECUTE_WRITECOPY && IsRebirthed(hProcess, Address) == FALSE)
-			Report(hProcess, MEM_INFO_CHECK, MEMORY_NotRebirthed, Address, (PVOID)0);
+			Report(hProcess, MEM_CHECK, MEMORY_NotRebirthed, Address, (PVOID)0);
 
 		// This region's page protection is not restored
 		else if (mbi.Protect == PAGE_EXECUTE_READWRITE || mbi.Protect == PAGE_EXECUTE_WRITECOPY)
-			Report(hProcess, MEM_INFO_CHECK, MEMORY_Execute_Write, Address, (PVOID)0);
+			Report(hProcess, MEM_CHECK, MEMORY_Execute_Write, Address, (PVOID)0);
 
 		// This region is invalid
 		else if (mbi.Protect == PAGE_EXECUTE_READ || (IsInModule(hProcess, Address, 1) == (DWORD64)myGetModuleHandleEx(CURRENT_PROCESS, NULL)))
@@ -270,10 +270,10 @@ VOID MemInfoCheck(HANDLE hProcess, DWORD pid)
 			((_NtQueryVirtualMemory)APICall(ntdll, APICall_NtQueryVirtualMemory))(hProcess, Address, MemoryWorkingSetExList, &wsi, sizeof(wsi), 0);
 
 			if (wsi.VirtualAttributes.Locked == 0)
-				Report(hProcess, MEM_INFO_CHECK, MEMORY_Unlocked, Address, (PVOID)0);
+				Report(hProcess, MEM_CHECK, MEMORY_Unlocked, Address, (PVOID)0);
 
 			else if (*((BYTE*)&wsi.VirtualAttributes.Flags + 2) != 0x40)
-				Report(hProcess, MEM_INFO_CHECK, MEMORY_Unlocked_2, Address, (PVOID)0);
+				Report(hProcess, MEM_CHECK, MEMORY_Unlocked_2, Address, (PVOID)0);
 		}
 
 		Address = (PVOID)((DWORD64)Address + mbi.RegionSize);

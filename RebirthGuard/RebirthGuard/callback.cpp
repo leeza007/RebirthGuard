@@ -24,7 +24,7 @@ VOID TLS_Callback(PVOID DllHandle, DWORD dwReason, PVOID Reserved)
 		Initialze();
 
 	// Check the module is rebirthed
-#if MEM_INFO_CHECK & ENABLE
+#if MEM_CHECK & ENABLE
 	if (dwReason == DLL_THREAD_ATTACH)
 		DestoryModule(CURRENT_PROCESS);
 #endif

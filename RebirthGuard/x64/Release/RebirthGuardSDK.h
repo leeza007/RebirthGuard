@@ -11,7 +11,7 @@
 #pragma comment(linker, "/ALIGN:0x10000")
 
 VOID	TLS_Callback	(PVOID, DWORD, PVOID);
-VOID	MemInfoCheck	(HANDLE hProcess, DWORD pid);
+VOID	MemCheck		(HANDLE hProcess, DWORD pid);
 VOID	CRCCheck		(VOID);
 
 #pragma comment (linker, "/INCLUDE:_tls_used")
