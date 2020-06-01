@@ -17,7 +17,7 @@ Developed using Windows 10 version 1909 / Visual Studio Community 2017.
 * __Process policy__
 * __File integrity check__
 * __Thread filtering__
-* __Memory status check__
+* __Memory check__
 * __CRC check__ (Hide from debugger)
 * __Anti-DLL Injection__
 * __Anti-Debugging__
