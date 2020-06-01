@@ -13,16 +13,16 @@ Developed using Windows 10 version 1909 / Visual Studio Community 2017.
 
 
 ## :page_facing_up: Capabilites:
-* Module remapping (Force page protection)
-* Process policy
-* File integrity check
-* Thread filtering
-* Memory status check
-* CRC check (Stealth)
-* Anti-DLL Injection
-* Anti-Debugging
-* Exception handling
-* Whitelist
+* __Module remapping__ (Force page protection)
+* __Process policy__
+* __File integrity check__
+* __Thread filtering__
+* __Memory status check__
+* __CRC check__ (Stealth)
+* __Anti-DLL Injection__
+* __Anti-Debugging__
+* __Exception handling__
+* __Whitelist__
 
 
 ## :wrench: How to use:
