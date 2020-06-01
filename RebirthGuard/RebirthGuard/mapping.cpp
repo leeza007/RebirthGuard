@@ -258,7 +258,7 @@ VOID RebirthModule(HANDLE hProcess, CONST WCHAR* ModulePath)
 		// 1. Load the file to memory manually
 		DWORD64 MappedModule = (DWORD64)ManualMap(hProcess, ModulePath);
 
-		PIMAGE_NT_HEADERS		pNtHeader		= (PIMAGE_NT_HEADERS)(MappedModule + ((PIMAGE_DOS_HEADER)MappedModule)->e_lfanew);
+		PIMAGE_NT_HEADERS		pNtHeader		= GetNtHeader(MappedModule);
 		PIMAGE_SECTION_HEADER	pSectionHeader	= IMAGE_FIRST_SECTION(pNtHeader);
 		DWORD					SizeOfImage		= pNtHeader->OptionalHeader.SizeOfImage;
 		HANDLE					hSection		= NULL;
@@ -272,6 +272,8 @@ VOID RebirthModule(HANDLE hProcess, CONST WCHAR* ModulePath)
 			*(DWORD64*)(&SectionOffset + i) = *(DWORD64*)(&SectionSize + i) = 0;
 
 		SectionSize.QuadPart = SizeOfImage;
+
+		pNtHeader->OptionalHeader.ImageBase = (DWORD64)myGetModuleHandleEx(hProcess, ModulePath);;
 
 		// SectionAlignment == 0x10000
 		if (pNtHeader->OptionalHeader.SectionAlignment == AllocationGranularity)

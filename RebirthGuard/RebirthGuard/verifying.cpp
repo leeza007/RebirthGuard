@@ -340,6 +340,8 @@ VOID CRCCheck(VOID)
 					*(BYTE*)(MappedModule + offset + i) = jmp_myRtlUserThreadStart[i];
 			}
 
+			(GetNtHeader(MappedModule))->OptionalHeader.ImageBase = (DWORD64)myGetModuleHandleEx(CURRENT_PROCESS, ModulePath);;
+
 			// CRC64 Check
 			if (CRC64((PVOID)ModuleBase) != CRC64((PVOID)MappedModule))
 				Report(CURRENT_PROCESS, CRC_CHECK, CRCCheck_Integrity, (PVOID)myGetModuleHandleEx(CURRENT_PROCESS, List.FullDllName.Buffer), (PVOID)0);

@@ -114,7 +114,7 @@ HMODULE myGetModuleHandleEx(HANDLE hProcess, CONST WCHAR* ModulePath)
 //-------------------------------------------------------
 FARPROC myGetProcAddress(HMODULE hModule, LPCSTR lpProcName)
 {
-	PIMAGE_NT_HEADERS		pnh = (PIMAGE_NT_HEADERS)((DWORD64)hModule + ((PIMAGE_DOS_HEADER)hModule)->e_lfanew);
+	PIMAGE_NT_HEADERS		pnh = GetNtHeader(hModule);
 	PIMAGE_DATA_DIRECTORY	pdd = &pnh->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT];
 	PIMAGE_EXPORT_DIRECTORY ped = (PIMAGE_EXPORT_DIRECTORY)((DWORD64)hModule + pdd->VirtualAddress);
 
