@@ -62,7 +62,7 @@ int main(void)
 
 ## :mag: References
 * [Self-Remapping-Code](https://github.com/changeofpace/Self-Remapping-Code)
-* [manual-dll-injection](http://www.rohitab.com/discuss/topic/40761-manual-dll-injection/)
+* [Manual-DLL-Injection](http://www.rohitab.com/discuss/topic/40761-manual-dll-injection/)
 
 ## :pencil2: Sample Test 2
 * [Titan-Voyager-Custom-Game-Engine](https://github.com/TheFearlessHobbit/Titan-Voyager-Custom-Game-Engine)
