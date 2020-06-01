@@ -89,7 +89,13 @@ PVOID ManualMap(HANDLE hProcess, CONST WCHAR* ModulePath)
 		PIMAGE_THUNK_DATA FirstThunk		= (PIMAGE_THUNK_DATA)((LPBYTE)ImageBase + pImportDescriptor->FirstThunk);
 
 		WCHAR ModulePath2[MAX_PATH];
-		MultiByteToWideChar(CP_ACP, NULL, (LPCSTR)((DWORD64)ImageBase + pImportDescriptor->Name), -1, ModulePath2, MAX_PATH);
+		CHAR* str = (CHAR*)((DWORD64)ImageBase + pImportDescriptor->Name);
+		for (DWORD i = 0; str[i] != 0; i++)
+		{
+			ModulePath2[i] = str[i];
+			ModulePath2[i + 1] = 0;
+		}
+
 		if (((_LoadLibraryW)APICall(kernelbase, APICall_LoadLibraryW))(ModulePath2))
 			GetModuleFileName(((_LoadLibraryW)APICall(kernelbase, APICall_LoadLibraryW))(ModulePath2), ModulePath2, sizeof(ModulePath2));
 		HMODULE hModule = myGetModuleHandleEx(CURRENT_PROCESS, ModulePath2);

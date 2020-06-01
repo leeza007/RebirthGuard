@@ -230,16 +230,16 @@ VOID Report(HANDLE hProcess, DWORD ErrorFlag, REBIRTHGUARD_REPORT_CODE ErrorCode
 	// Pop up
 	if (ErrorFlag & POPUP)
 	{
-		char scriptpath[MAX_PATH];
-		GetCurrentDirectoryA(MAX_PATH, scriptpath);
-		strcat_s(scriptpath, "\\RebirthGuard.vbs");
+		WCHAR scriptpath[MAX_PATH];
+		GetCurrentDirectory(MAX_PATH, scriptpath);
+		mywcscat(scriptpath, L"\\RebirthGuard.vbs");
 
 		FILE* log = NULL;
 		fopen_s(&log, "RebirthGuard.vbs", "w+");
 		fprintf(log,
 			"Dim obj, file\n"
 			"Set obj = CreateObject(\"Scripting.FileSystemObject\")\n"
-			"Set file = obj.GetFile(\"%s\")\n"
+			"Set file = obj.GetFile(\"%S\")\n"
 			"file.Delete\n"
 			"msgbox \"[ %04d-%02d-%02d %02d:%02d:%02d ]\" & Chr(13) & Chr(13) &"
 			"\"Pid\t:  %d\" & Chr(13) & "
@@ -254,10 +254,13 @@ VOID Report(HANDLE hProcess, DWORD ErrorFlag, REBIRTHGUARD_REPORT_CODE ErrorCode
 			ModuleName2, (DWORD64)ErrorAddress2 - (DWORD64)myGetModuleHandleEx(hProcess, ModulePath2), GetFileCheckSum(ModulePath2));
 		fclose(log);
 
-		char path[MAX_PATH] = "wscript.exe \"";
-		strcat_s(path, scriptpath);
-		strcat_s(path, "\"");
-		WinExec(path, SW_SHOW);
+		WCHAR path[MAX_PATH] = L"wscript.exe \"";
+		mywcscat(path, scriptpath);
+		mywcscat(path, L"\"");
+
+		STARTUPINFOEX si = { sizeof(si) };
+		PROCESS_INFORMATION pi;
+		CreateProcess(0, path, 0, 0, 0, 0, 0, 0, (STARTUPINFO*)&si, &pi);
 	}
 
 	// Terminate process
