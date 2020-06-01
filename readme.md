@@ -1,6 +1,6 @@
 # RebirthGuard
 
-## The Windows EXE Runtime Protection Library (x64)
+## Windows EXE Runtime Protection Library (x64)
 
 RebirthGuard is a Windows User-level protection library written on C.
 
