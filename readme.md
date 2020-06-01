@@ -13,7 +13,7 @@ Developed using Windows 10 version 1909 / Visual Studio Community 2017.
 ## :bulb: Motivation
 PUBG Anti-cheat : Xenuine 
 
-## :page_facing_up: Capabilites:
+## :page_facing_up: Capabilities:
 * __Module remapping__ (Force page protection)
 * __Process policy__
 * __File integrity check__

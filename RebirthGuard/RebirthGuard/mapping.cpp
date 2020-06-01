@@ -48,6 +48,12 @@ PVOID ManualMap(HANDLE hProcess, CONST WCHAR* ModulePath)
 		for (DWORD64 j = 0; j < pSectionHeader[i].SizeOfRawData; j += sizeof(DWORD64))
 			*(DWORD64*)((DWORD64)ImageBase + pSectionHeader[i].VirtualAddress + j) = *(DWORD64*)((DWORD64)ViewBase + pSectionHeader[i].PointerToRawData + j);
 
+	((_NtUnmapViewOfSection)APICall(ntdll, APICall_NtUnmapViewOfSection))(CURRENT_PROCESS, ViewBase);
+	CloseHandle(hSection);
+	CloseHandle(hFile);
+
+	pNtHeader = GetNtHeader(ImageBase);
+
 	PVOID OriginImageBase = myGetModuleHandleEx(CURRENT_PROCESS, ModulePath);
 
 	PIMAGE_BASE_RELOCATION pBaseRelocation = (PIMAGE_BASE_RELOCATION)((LPBYTE)ImageBase + pNtHeader->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_BASERELOC].VirtualAddress);
@@ -135,10 +141,6 @@ PVOID ManualMap(HANDLE hProcess, CONST WCHAR* ModulePath)
 
 		pImportDescriptor++;
 	}
-
-	((_NtUnmapViewOfSection)APICall(ntdll, APICall_NtUnmapViewOfSection))(CURRENT_PROCESS, ViewBase);
-	CloseHandle(hSection);
-	CloseHandle(hFile);
 
 	return ImageBase;
 }

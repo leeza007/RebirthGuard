@@ -42,6 +42,9 @@ VOID Initialze(VOID)
 	// Check this program is rebirthed
 	if (IsRebirthed(CURRENT_PROCESS, myGetModuleHandleEx(CURRENT_PROCESS, NULL)) == NULL)
 	{
+		// Register Callbacks
+		RegisterCallbacks();
+
 		STARTUPINFOEX si = { sizeof(si) };
 		PROCESS_INFORMATION pi;
 
