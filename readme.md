@@ -32,7 +32,7 @@ Developed using Windows 10 version 1909 / Visual Studio Community 2017.
 5. Compile your project.
 
 ## Example :
-```
+```C
 #include <Windows.h>
 #include <stdio.h>
 #include <RebirthGuardSDK.h>
