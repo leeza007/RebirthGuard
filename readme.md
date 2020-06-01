@@ -48,7 +48,7 @@ int main(void)
 	{
 		printf("%d\n", i);
 
-		MemInfoCheck(GetCurrentProcess(), GetCurrentProcessId());
+		MemCheck(GetCurrentProcess(), GetCurrentProcessId());
 
 		CRCCheck();
 
