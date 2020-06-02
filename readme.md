@@ -23,7 +23,6 @@ PUBG Anti-cheat : Xenuine
 * __Anti-DLL Injection__
 * __Anti-Debugging__
 * __Exception handling__
-* __Whitelist__
 
 
 ## :wrench: How to use:
