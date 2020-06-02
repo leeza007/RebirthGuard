@@ -308,10 +308,10 @@ VOID CRCCheck(VOID)
 #if _HIDE_FROM_DEBUGGER & ENABLE
 			for (int i = 0;; i++)
 			{
-				if (SectionList[i].CRC == NULL)
+				if (SectionList[i].ModuleBase == NULL)
 					Report(CURRENT_PROCESS, CRC_CHECK, CRCCheck_Section_Error, (PVOID)ModuleBase, (PVOID)0);
 
-				if (SectionList[i].CRC == CRC64((PVOID)ModuleBase))
+				if (SectionList[i].ModuleBase == (PVOID)ModuleBase)
 				{
 					LARGE_INTEGER SectionOffset;
 					SectionOffset.QuadPart = NULL;

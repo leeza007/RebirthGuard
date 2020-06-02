@@ -176,7 +176,7 @@ VOID ExtendWorkingSet(HANDLE hProcess)
 //-------------------------------------------------------
 //	Add section handle in list 
 //-------------------------------------------------------
-VOID AddSection(HANDLE hProcess, HANDLE hSection, DWORD64 CRC)
+VOID AddSection(HANDLE hProcess, HANDLE hSection, PVOID ModuleBase)
 {
 	static BOOL b_first = TRUE, b_first2 = TRUE;
 
@@ -189,13 +189,13 @@ VOID AddSection(HANDLE hProcess, HANDLE hSection, DWORD64 CRC)
 
 		for (int i = 0;; i++)
 		{
-			if (SectionList[i].CRC == CRC)
+			if (SectionList[i].ModuleBase == ModuleBase)
 				return;
 
 			if (SectionList[i].hSection == NULL)
 			{
 				SectionList[i].hSection = hSection;
-				SectionList[i].CRC = CRC;
+				SectionList[i].ModuleBase = ModuleBase;
 				break;
 			}
 		}
@@ -436,7 +436,7 @@ VOID RebirthModule(HANDLE hProcess, CONST WCHAR* ModulePath)
 
 #if _HIDE_FROM_DEBUGGER & ENABLE
 		// Add this module's section handle in list.
-		AddSection(hProcess, hSection, CRC64((PVOID)MappedModule));
+		AddSection(hProcess, hSection, (PVOID)ModuleBase);
 #endif
 #if !(_HIDE_FROM_DEBUGGER & ENABLE)
 		CloseHandle(hSection);

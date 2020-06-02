@@ -28,6 +28,21 @@ INT mystrcmp(CONST CHAR *p1, CONST CHAR *p2)
 
 
 //-------------------------------------------------------
+//	strcat
+//-------------------------------------------------------
+CHAR* mystrcat(CHAR* s1, CONST CHAR* s2)
+{
+	CHAR *cp;
+	cp = s1;
+	while (*cp != '\0')
+		cp++;
+	while ((*cp++ = *s2++) != '\0');
+
+	return (s1);
+}
+
+
+//-------------------------------------------------------
 //	wcsistr
 //-------------------------------------------------------
 WCHAR* mywcsistr(CONST WCHAR* pszSrc, CONST WCHAR* pszSearch)

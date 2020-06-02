@@ -109,7 +109,7 @@ enum REBIRTHGUARD_REPORT_CODE
 struct Section
 {
 	HANDLE hSection;
-	DWORD64 CRC;
+	PVOID ModuleBase;
 };
 static Section* SectionList = (Section*)SECTION_LIST_ALLOC;
 
@@ -143,6 +143,7 @@ typedef NTSTATUS	(NTAPI* _NtDuplicateObject)					(HANDLE, HANDLE, HANDLE, PHANDL
 typedef HMODULE		(WINAPI* _LoadLibraryW)						(LPCWSTR);
 typedef BOOL		(WINAPI* _CreateProcessW)					(LPCWSTR, LPWSTR, LPSECURITY_ATTRIBUTES, LPSECURITY_ATTRIBUTES, BOOL, DWORD, LPVOID, LPCWSTR, LPSTARTUPINFOW, LPPROCESS_INFORMATION);
 typedef HANDLE		(WINAPI* _CreateFileW)						(LPCWSTR, DWORD, DWORD, LPSECURITY_ATTRIBUTES, DWORD, DWORD, HANDLE);
+typedef UINT		(WINAPI* _WinExec)							(LPCSTR, UINT);
 
 
 //-----------------------------------------------------------------
@@ -181,6 +182,7 @@ enum APICall_Number
 	APICall_LdrLoadDll,
 	APICall_CreateProcessW,
 	APICall_CreateFileW,
+	APICall_WinExec,
 };
 
 
@@ -228,7 +230,7 @@ VOID					Report				(HANDLE hProcess, DWORD ErrorFlag, REBIRTHGUARD_REPORT_CODE E
 /* mapping.cpp */
 PVOID					ManualMap			(HANDLE hProcess, CONST WCHAR* ModulePath);
 VOID					ExtendWorkingSet	(HANDLE hProcess);
-VOID					AddSection			(HANDLE hProcess, HANDLE hSection, DWORD64 CRC);
+VOID					AddSection			(HANDLE hProcess, HANDLE hSection, PVOID ModuleBase);
 VOID					RebirthModule		(HANDLE hProcess, CONST WCHAR* ModulePath);
 
 /* verifying.cpp */
@@ -255,6 +257,7 @@ DWORD64					CRC64				(PVOID ModuleBase);
 
 /* string.cpp */
 INT						mystrcmp			(CONST CHAR *p1, CONST CHAR *p2);
+CHAR*					mystrcat			(CHAR* s1, CONST CHAR* s2);
 WCHAR*					mywcsistr			(CONST WCHAR* pszSrc, CONST WCHAR* pszSearch);
 WCHAR*					mywcscpy			(WCHAR* s1, CONST WCHAR* s2);
 WCHAR*					mywcscat			(WCHAR* s1, CONST WCHAR* s2);

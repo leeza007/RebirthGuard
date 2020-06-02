@@ -7,7 +7,7 @@ void CRCThread()
 {
 	while (1)
 	{
-		Sleep(1000);
+		Sleep(3000);
 		MemCheck(GetCurrentProcess(), GetCurrentProcessId());
 		CRCCheck();
 	}
