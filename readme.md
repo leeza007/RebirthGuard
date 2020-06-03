@@ -1,6 +1,6 @@
 # RebirthGuard
 
-## Windows EXE Runtime Protection Library (x64)
+## Windows Process Protection Library (x64)
 
 __RebirthGuard__ is a User-mode (ring 3) library written on C.
 
