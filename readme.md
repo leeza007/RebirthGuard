@@ -8,7 +8,7 @@ This library is based on *__Section remapping__* and *__Manual mapping__* techni
 
 In this project, *__Rebirth__* means *__Section remap__* and *__Force page protection__*.
 
-## Dependencies
+## :heavy_check_mark: Dependencies
 * Windows 10 x64
 * Visual Studio 2017 Community Edition
 * Windows 10 SDK 10.0.17134.0
