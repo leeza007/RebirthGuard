@@ -8,15 +8,15 @@ This library is based on *__Section remapping__* and *__Manual mapping__* techni
 
 In this project, *__Rebirth__* means *__Section remap__* and *__Force page protection__*.
 
-## :heavy_check_mark: Dependencies
+## :heavy_check_mark: Dependencies :
 * Windows 10 x64
 * Visual Studio 2017 Community Edition
 * Windows 10 SDK 10.0.17134.0
 
-## :bulb: Motivation
+## :bulb: Motivation :
 PUBG Anti-cheat : Xenuine 
 
-## :page_facing_up: Capabilities:
+## :page_facing_up: Capabilities :
 * __Module remapping__ (Force page protection)
 * __Process policy__
 * __File integrity check__
