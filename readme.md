@@ -28,7 +28,7 @@ PUBG Anti-cheat : Xenuine
 ## :wrench: How to use:
 1. Set RebirthGuard Options in `Settings.h`
 2. Complie RebirthGuard.
-3. Include `RebirthGuardSDK.h` and `RebirthGuard.lib` in your project.
+3. Include `RebirthGuardSDK.h` and link `RebirthGuard.lib` in your project.
 4. Add linker option : `/RELEASE` (If `FILE_CHECK` option is enabled)
 5. Compile your project.
 
