@@ -8,7 +8,10 @@ This library is based on *__Section remapping__* and *__Manual mapping__* techni
 
 In this project, *__Rebirth__* means *__Section remap__* and *__Force page protection__*.
 
-Developed using Windows 10 version 1909 / Visual Studio Community 2017.
+## Dependencies
+* Windows 10 x64
+* Visual Studio 2017 Community Edition
+* Windows 10 SDK 10.0.17134.0
 
 ## :bulb: Motivation
 PUBG Anti-cheat : Xenuine 
@@ -25,7 +28,7 @@ PUBG Anti-cheat : Xenuine
 * __Exception handling__
 
 
-## :wrench: How to use:
+## :wrench: How to use :
 1. Set RebirthGuard options in `Settings.h`.
 2. Complie RebirthGuard.
 3. Include `RebirthGuardSDK.h` and link `RebirthGuard.lib` in your project.
