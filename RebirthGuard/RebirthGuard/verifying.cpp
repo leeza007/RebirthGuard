@@ -234,7 +234,7 @@ VOID DestoryModule(HANDLE hProcess)
 //-----------------------------------------------------------------
 //	Check the all memory region
 //-----------------------------------------------------------------
-VOID MemCheck(HANDLE hProcess, DWORD pid)
+VOID MemCheck(HANDLE hProcess)
 {
 #if MEM_CHECK & ENABLE
 	// Destory module memory

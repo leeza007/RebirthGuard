@@ -94,7 +94,7 @@ VOID Initialze(VOID)
 
 		// Memory info check
 #if MEM_CHECK & ENABLE
-		MemCheck(pi.hProcess, pi.dwProcessId);
+		MemCheck(pi.hProcess);
 #endif
 
 		// CRC check

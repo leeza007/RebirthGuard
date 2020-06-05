@@ -12,7 +12,7 @@ int main(void)
 	{
 		printf("%d\n", i);
 
-		MemCheck(GetCurrentProcess(), GetCurrentProcessId());
+		MemCheck(GetCurrentProcess());
 
 		CRCCheck();
 

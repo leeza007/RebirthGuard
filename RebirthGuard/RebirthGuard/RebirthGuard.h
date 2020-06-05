@@ -240,7 +240,7 @@ DWORD64					IsInModule			(HANDLE hProcess, PVOID Address, DWORD Type);
 BOOL					CompareByte			(PVOID Original, PVOID Target);
 VOID					ThreadCheck			(PVOID StartAddress, DWORD Type);
 VOID					DestoryModule		(HANDLE hProcess);
-VOID					MemCheck			(HANDLE hProcess, DWORD pid);
+VOID					MemCheck			(HANDLE hProcess);
 VOID					CRCCheck			(VOID);
 WORD					CalculateCheckSum	(UINT CheckSum, PVOID FileBase, INT Length);
 DWORD					GetFileCheckSum		(CONST WCHAR* ModulePath);
