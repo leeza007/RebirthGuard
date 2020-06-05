@@ -12,7 +12,7 @@ In this project, *__Rebirth__* means *Section remap* and *Force page protection*
 
 ## :heavy_check_mark: Dependencies
 * Windows 10 x64
-* Visual Studio 2017 Community Edition
+* Visual Studio 2017 Community
 * Windows 10 SDK 10.0.17134.0
 
 ## :bulb: Motivation
