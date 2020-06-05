@@ -8,7 +8,7 @@ This library is based on *__Section remapping__* and *__Manual mapping__* techni
 
 Certain functions need to be called when needed (Synchronous) : `MemCheck`, `CRCCheck` 
 
-In this project, *__Rebirth__* means *__Section remap__* and *__Force page protection__*.
+In this project, *__Rebirth__* means *Section remap* and *Force page protection*.
 
 ## :heavy_check_mark: Dependencies
 * Windows 10 x64
