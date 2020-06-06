@@ -96,20 +96,26 @@ PVOID NextModule(HANDLE hProcess, PLDR_DATA_TABLE_ENTRY pList)
 //-----------------------------------------------------------------
 VOID HideModule(VOID)
 {
-	PLIST_ENTRY pUserModule = NULL;
-	PPEB_LDR_DATA_ pLdrData = (PPEB_LDR_DATA_)(*((PTEB)__readgsqword(0x30))->ProcessEnvironmentBlock).Ldr;
+	LDR_DATA_TABLE_ENTRY List;
+	*(DWORD64*)&List = 0;
 
-	pUserModule = pLdrData->InLoadOrderModuleList.Flink;
-	pUserModule->Blink->Flink = pUserModule->Flink;
-	pUserModule->Flink->Blink = pUserModule->Blink;
+	for (DWORD i = 0; NextModule(CURRENT_PROCESS, &List) && i < 1; i++)
+	{
+		PLIST_ENTRY pUserModule = NULL;
+		PPEB_LDR_DATA_ pLdrData = (PPEB_LDR_DATA_)(*((PTEB)__readgsqword(0x30))->ProcessEnvironmentBlock).Ldr;
 
-	pUserModule = pLdrData->InMemoryOrderModuleList.Flink;
-	pUserModule->Blink->Flink = pUserModule->Flink;
-	pUserModule->Flink->Blink = pUserModule->Blink;
+		pUserModule = pLdrData->InLoadOrderModuleList.Flink;
+		pUserModule->Blink->Flink = pUserModule->Flink;
+		pUserModule->Flink->Blink = pUserModule->Blink;
 
-	pUserModule = pLdrData->InInitializationOrderModuleList.Flink;
-	pUserModule->Blink->Flink = pUserModule->Flink;
-	pUserModule->Flink->Blink = pUserModule->Blink;
+		pUserModule = pLdrData->InMemoryOrderModuleList.Flink;
+		pUserModule->Blink->Flink = pUserModule->Flink;
+		pUserModule->Flink->Blink = pUserModule->Blink;
+
+		pUserModule = pLdrData->InInitializationOrderModuleList.Flink;
+		pUserModule->Blink->Flink = pUserModule->Flink;
+		pUserModule->Flink->Blink = pUserModule->Blink;
+	}
 }
 
 
