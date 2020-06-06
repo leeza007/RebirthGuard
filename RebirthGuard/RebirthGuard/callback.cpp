@@ -24,13 +24,15 @@ VOID TLS_Callback(PVOID DllHandle, DWORD dwReason, PVOID Reserved)
 	if (dwReason == DLL_PROCESS_ATTACH && StartAddress != RegisterCallbacks)
 		Initialze();
 
-	// Unlink Module
-	static BOOL unlink = TRUE;
-	if (dwReason == DLL_THREAD_ATTACH && unlink && IsRebirthed(CURRENT_PROCESS, myGetModuleHandleEx(CURRENT_PROCESS, NULL)))
+	// Hide Module
+#if HIDE_MODULE & ENABLE
+	static BOOL hidemodule = TRUE;
+	if (dwReason == DLL_THREAD_ATTACH && hidemodule && IsRebirthed(CURRENT_PROCESS, myGetModuleHandleEx(CURRENT_PROCESS, NULL)))
 	{
-		unlink = FALSE;
-		UnlinkModule();
+		hidemodule = FALSE;
+		HideModule();
 	}
+#endif
 
 	// Check the module is rebirthed
 #if MEM_CHECK & ENABLE

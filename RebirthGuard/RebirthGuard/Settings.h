@@ -30,6 +30,9 @@
 
 		#define	_MS_SIGNED_ONLY			DISABLE
 //------------------------------------------------------------------------------------------------
+	#define HIDE_MODULE					ENABLE
+//------------------------------------------------------------------------------------------------
+
 	#define FILE_CHECK					ENABLE | _LOG | _POPUP | _KILL
 
 										static CONST WCHAR* Whitelist_FileCheck[] =

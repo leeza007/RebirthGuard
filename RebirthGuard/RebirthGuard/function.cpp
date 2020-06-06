@@ -92,9 +92,9 @@ PVOID NextModule(HANDLE hProcess, PLDR_DATA_TABLE_ENTRY pList)
 
 
 //-----------------------------------------------------------------
-//	Unlink Module
+//	Hide Module
 //-----------------------------------------------------------------
-VOID UnlinkModule(VOID)
+VOID HideModule(VOID)
 {
 	PLIST_ENTRY pUserModule = NULL;
 	PPEB_LDR_DATA_ pLdrData = (PPEB_LDR_DATA_)(*((PTEB)__readgsqword(0x30))->ProcessEnvironmentBlock).Ldr;
