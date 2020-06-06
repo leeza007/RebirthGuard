@@ -51,11 +51,21 @@ WCHAR* GetModulePath(DWORD ModuleIndex)
 //-----------------------------------------------------------------
 PVOID NextModule(HANDLE hProcess, PLDR_DATA_TABLE_ENTRY pList)
 {
+	static LDR_DATA_TABLE_ENTRY* FirstLink = NULL;
+
 	if (hProcess == CURRENT_PROCESS)
 	{
 		// Get module list of current process
 		if (*(DWORD64*)pList == NULL)
-			*pList = *(LDR_DATA_TABLE_ENTRY*)(*(*((PTEB)__readgsqword(0x30))->ProcessEnvironmentBlock).Ldr).InMemoryOrderModuleList.Flink;
+		{
+			if (FirstLink == NULL)
+			{
+				FirstLink = (LDR_DATA_TABLE_ENTRY*)(*(*((PTEB)__readgsqword(0x30))->ProcessEnvironmentBlock).Ldr).InMemoryOrderModuleList.Flink;
+				*pList = *(LDR_DATA_TABLE_ENTRY*)(*(*((PTEB)__readgsqword(0x30))->ProcessEnvironmentBlock).Ldr).InMemoryOrderModuleList.Flink;
+			}
+			else
+				*pList = *FirstLink;
+		}
 		else
 			*pList = *(LDR_DATA_TABLE_ENTRY*)(*(DWORD64*)pList);
 	}
@@ -78,6 +88,28 @@ PVOID NextModule(HANDLE hProcess, PLDR_DATA_TABLE_ENTRY pList)
 	}
 
 	return pList->DllBase;
+}
+
+
+//-----------------------------------------------------------------
+//	Unlink Module
+//-----------------------------------------------------------------
+VOID UnlinkModule(VOID)
+{
+	PLIST_ENTRY pUserModule = NULL;
+	PPEB_LDR_DATA_ pLdrData = (PPEB_LDR_DATA_)(*((PTEB)__readgsqword(0x30))->ProcessEnvironmentBlock).Ldr;
+
+	pUserModule = pLdrData->InLoadOrderModuleList.Flink;
+	pUserModule->Blink->Flink = pUserModule->Flink;
+	pUserModule->Flink->Blink = pUserModule->Blink;
+
+	pUserModule = pLdrData->InMemoryOrderModuleList.Flink;
+	pUserModule->Blink->Flink = pUserModule->Flink;
+	pUserModule->Flink->Blink = pUserModule->Blink;
+
+	pUserModule = pLdrData->InInitializationOrderModuleList.Flink;
+	pUserModule->Blink->Flink = pUserModule->Flink;
+	pUserModule->Flink->Blink = pUserModule->Blink;
 }
 
 

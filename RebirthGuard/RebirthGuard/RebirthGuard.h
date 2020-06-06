@@ -214,6 +214,20 @@ typedef union _LDR_DLL_NOTIFICATION_DATA
 } LDR_DLL_NOTIFICATION_DATA, *PLDR_DLL_NOTIFICATION_DATA;
 
 
+//-----------------------------------------------------------------
+//	PEB_LDR_DATA
+//-----------------------------------------------------------------
+typedef struct _PEB_LDR_DATA_
+{
+	ULONG           Length;
+	BOOLEAN         Initialized;
+	PVOID           SsHandle;
+	LIST_ENTRY      InLoadOrderModuleList;
+	LIST_ENTRY      InMemoryOrderModuleList;
+	LIST_ENTRY      InInitializationOrderModuleList;
+} PEB_LDR_DATA_, *PPEB_LDR_DATA_;
+
+
 /* main.cpp */
 VOID					RegisterCallbacks	(VOID);
 VOID					Initialze			(VOID);
@@ -222,6 +236,7 @@ VOID					Initialze			(VOID);
 PVOID					GetPEHeader			(HANDLE hProcess, PVOID ModuleBase);
 WCHAR*					GetModulePath		(DWORD ModuleIndex);
 PVOID					NextModule			(HANDLE hProcess, PLDR_DATA_TABLE_ENTRY pList);
+VOID					UnlinkModule		(VOID);
 HMODULE					myGetModuleHandleEx	(HANDLE hProcess, CONST WCHAR* ModulePath);
 FARPROC					myGetProcAddress	(HMODULE hModule, LPCSTR lpProcName);
 FARPROC					APICall				(DWORD ModuleIndex, APICall_Number API);

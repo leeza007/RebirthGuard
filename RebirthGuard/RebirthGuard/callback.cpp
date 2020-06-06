@@ -20,8 +20,17 @@ VOID TLS_Callback(PVOID DllHandle, DWORD dwReason, PVOID Reserved)
 	// Thread check
 	ThreadCheck(StartAddress, 0);
 
+	// Initialize RebirthGuard
 	if (dwReason == DLL_PROCESS_ATTACH && StartAddress != RegisterCallbacks)
 		Initialze();
+
+	// Unlink Module
+	static BOOL unlink = TRUE;
+	if (dwReason == DLL_THREAD_ATTACH && unlink && IsRebirthed(CURRENT_PROCESS, myGetModuleHandleEx(CURRENT_PROCESS, NULL)))
+	{
+		unlink = FALSE;
+		UnlinkModule();
+	}
 
 	// Check the module is rebirthed
 #if MEM_CHECK & ENABLE
