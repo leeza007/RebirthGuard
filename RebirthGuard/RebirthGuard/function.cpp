@@ -96,9 +96,17 @@ PVOID NextModule(HANDLE hProcess, PLDR_DATA_TABLE_ENTRY pList)
 //-----------------------------------------------------------------
 VOID HideModule(VOID)
 {
-	PLIST_ENTRY pUserModule = NULL;
+	LDR_DATA_TABLE_ENTRY List;
+	*(DWORD64*)&List = 0;
+	while (NextModule(CURRENT_PROCESS, &List))
+		if (((PLDR_DATA_TABLE_ENTRY)*(DWORD64*)&List)->DllBase == NULL)
+			break;
+
 	PPEB_LDR_DATA_ pLdrData = (PPEB_LDR_DATA_)(*((PTEB)__readgsqword(0x30))->ProcessEnvironmentBlock).Ldr;
 
+	*(DWORD64*)(*(DWORD64*)&List) = (DWORD64)pLdrData->InLoadOrderModuleList.Flink;
+
+	PLIST_ENTRY pUserModule = NULL;
 	pUserModule = pLdrData->InLoadOrderModuleList.Flink;
 	pUserModule->Blink->Flink = pUserModule->Flink;
 	pUserModule->Flink->Blink = pUserModule->Blink;
