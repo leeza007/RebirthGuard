@@ -128,52 +128,52 @@ VOID ThreadCheck(PVOID StartAddress, DWORD Type)
 	((_NtQueryVirtualMemory)APICall(ntdll, APICall_NtQueryVirtualMemory))(CURRENT_PROCESS, StartAddress, MemoryBasicInformation, &mbi, sizeof(mbi), 0);
 
 #if THREAD_CHECK & ENABLE
-		// Start address is not module memory
-		if (IsInModule(CURRENT_PROCESS, StartAddress, 0) == -1)
-			Report(CURRENT_PROCESS, THREAD_CHECK, THREAD_StartAddress, StartAddress, (PVOID)(DWORD64)Type);
+	// Start address is not module memory
+	if (IsInModule(CURRENT_PROCESS, StartAddress, 0) == -1)
+		Report(CURRENT_PROCESS, THREAD_CHECK, THREAD_StartAddress, StartAddress, (PVOID)(DWORD64)Type);
 
-		// Start address is writable
-		else if (mbi.Protect == PAGE_EXECUTE_READWRITE || mbi.Protect == PAGE_EXECUTE_WRITECOPY)
-			Report(CURRENT_PROCESS, THREAD_CHECK, THREAD_Protection, StartAddress, (PVOID)(DWORD64)Type);
+	// Start address is writable
+	else if (mbi.Protect == PAGE_EXECUTE_READWRITE || mbi.Protect == PAGE_EXECUTE_WRITECOPY)
+		Report(CURRENT_PROCESS, THREAD_CHECK, THREAD_Protection, StartAddress, (PVOID)(DWORD64)Type);
 #endif
 
-		// Anti-DLL Injection
+	// Anti-DLL Injection
 #if ANTI_DLL_INJECTION & ENABLE
 		// DLL Injection with LoadLibraryA in Kernel32.dll
-		if (CompareByte(APICall(kernel32, APICall_LoadLibraryA), StartAddress))
-			Report(CURRENT_PROCESS, ANTI_DLL_INJECTION, DLL_INJECTION_Kernel32_LoadLibraryA, StartAddress, (PVOID)(DWORD64)Type);
+	if (CompareByte(APICall(kernel32, APICall_LoadLibraryA), StartAddress))
+		Report(CURRENT_PROCESS, ANTI_DLL_INJECTION, DLL_INJECTION_Kernel32_LoadLibraryA, StartAddress, (PVOID)(DWORD64)Type);
 
-		// DLL Injection with LoadLibraryW in Kernel32.dll
-		else if (CompareByte(APICall(kernel32, APICall_LoadLibraryW), StartAddress))
-			Report(CURRENT_PROCESS, ANTI_DLL_INJECTION, DLL_INJECTION_Kernel32_LoadLibraryW, StartAddress, (PVOID)(DWORD64)Type);
+	// DLL Injection with LoadLibraryW in Kernel32.dll
+	else if (CompareByte(APICall(kernel32, APICall_LoadLibraryW), StartAddress))
+		Report(CURRENT_PROCESS, ANTI_DLL_INJECTION, DLL_INJECTION_Kernel32_LoadLibraryW, StartAddress, (PVOID)(DWORD64)Type);
 
-		// DLL Injection with LoadLibraryExA in Kernel32.dll
-		else if (CompareByte(APICall(kernel32, APICall_LoadLibraryExA), StartAddress))
-			Report(CURRENT_PROCESS, ANTI_DLL_INJECTION, DLL_INJECTION_Kernel32_LoadLibraryExA, StartAddress, (PVOID)(DWORD64)Type);
+	// DLL Injection with LoadLibraryExA in Kernel32.dll
+	else if (CompareByte(APICall(kernel32, APICall_LoadLibraryExA), StartAddress))
+		Report(CURRENT_PROCESS, ANTI_DLL_INJECTION, DLL_INJECTION_Kernel32_LoadLibraryExA, StartAddress, (PVOID)(DWORD64)Type);
 
-		// DLL Injection with LoadLibraryExW in Kernel32.dll
-		else if (CompareByte(APICall(kernel32, APICall_LoadLibraryExW), StartAddress))
-			Report(CURRENT_PROCESS, ANTI_DLL_INJECTION, DLL_INJECTION_Kernel32_LoadLibraryExW, StartAddress, (PVOID)(DWORD64)Type);
+	// DLL Injection with LoadLibraryExW in Kernel32.dll
+	else if (CompareByte(APICall(kernel32, APICall_LoadLibraryExW), StartAddress))
+		Report(CURRENT_PROCESS, ANTI_DLL_INJECTION, DLL_INJECTION_Kernel32_LoadLibraryExW, StartAddress, (PVOID)(DWORD64)Type);
 
-		// DLL Injection with LoadLibraryA in KernelBase.dll
-		else if (CompareByte(APICall(kernelbase, APICall_LoadLibraryA), StartAddress))
-			Report(CURRENT_PROCESS, ANTI_DLL_INJECTION, DLL_INJECTION_KernelBase_LoadLibraryA, StartAddress, (PVOID)(DWORD64)Type);
+	// DLL Injection with LoadLibraryA in KernelBase.dll
+	else if (CompareByte(APICall(kernelbase, APICall_LoadLibraryA), StartAddress))
+		Report(CURRENT_PROCESS, ANTI_DLL_INJECTION, DLL_INJECTION_KernelBase_LoadLibraryA, StartAddress, (PVOID)(DWORD64)Type);
 
-		// DLL Injection with LoadLibraryW in KernelBase.dll
-		else if (CompareByte(APICall(kernelbase, APICall_LoadLibraryW), StartAddress))
-			Report(CURRENT_PROCESS, ANTI_DLL_INJECTION, DLL_INJECTION_KernelBase_LoadLibraryW, StartAddress, (PVOID)(DWORD64)Type);
+	// DLL Injection with LoadLibraryW in KernelBase.dll
+	else if (CompareByte(APICall(kernelbase, APICall_LoadLibraryW), StartAddress))
+		Report(CURRENT_PROCESS, ANTI_DLL_INJECTION, DLL_INJECTION_KernelBase_LoadLibraryW, StartAddress, (PVOID)(DWORD64)Type);
 
-		// DLL Injection with LoadLibraryExA in KernelBase.dll
-		else if (CompareByte(APICall(kernelbase, APICall_LoadLibraryExA), StartAddress))
-			Report(CURRENT_PROCESS, ANTI_DLL_INJECTION, DLL_INJECTION_KernelBase_LoadLibraryExA, StartAddress, (PVOID)(DWORD64)Type);
+	// DLL Injection with LoadLibraryExA in KernelBase.dll
+	else if (CompareByte(APICall(kernelbase, APICall_LoadLibraryExA), StartAddress))
+		Report(CURRENT_PROCESS, ANTI_DLL_INJECTION, DLL_INJECTION_KernelBase_LoadLibraryExA, StartAddress, (PVOID)(DWORD64)Type);
 
-		// DLL Injection with LoadLibraryExW in KernelBase.dll
-		else if (CompareByte(APICall(kernelbase, APICall_LoadLibraryExW), StartAddress))
-			Report(CURRENT_PROCESS, ANTI_DLL_INJECTION, DLL_INJECTION_KernelBase_LoadLibraryExW, StartAddress, (PVOID)(DWORD64)Type);
+	// DLL Injection with LoadLibraryExW in KernelBase.dll
+	else if (CompareByte(APICall(kernelbase, APICall_LoadLibraryExW), StartAddress))
+		Report(CURRENT_PROCESS, ANTI_DLL_INJECTION, DLL_INJECTION_KernelBase_LoadLibraryExW, StartAddress, (PVOID)(DWORD64)Type);
 
-		// DLL Injection with LdrLoadDll in ntdll.dll
-		else if (CompareByte(APICall(ntdll, APICall_LdrLoadDll), StartAddress))
-			Report(CURRENT_PROCESS, ANTI_DLL_INJECTION, DLL_INJECTION_Ntdll_LdrLoadDll, StartAddress, (PVOID)(DWORD64)Type);
+	// DLL Injection with LdrLoadDll in ntdll.dll
+	else if (CompareByte(APICall(ntdll, APICall_LdrLoadDll), StartAddress))
+		Report(CURRENT_PROCESS, ANTI_DLL_INJECTION, DLL_INJECTION_Ntdll_LdrLoadDll, StartAddress, (PVOID)(DWORD64)Type);
 #endif
 }
 

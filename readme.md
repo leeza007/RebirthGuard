@@ -20,8 +20,8 @@ PUBG Anti-cheat : Xenuine
 
 ## :page_facing_up: Capabilities
 * __Module remapping__ (Force page protection)
+* __Hide ModuleList__
 * __Process policy__
-* __Hide Module__
 * __File integrity check__
 * __Thread filtering__
 * __Memory check__

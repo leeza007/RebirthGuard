@@ -96,26 +96,20 @@ PVOID NextModule(HANDLE hProcess, PLDR_DATA_TABLE_ENTRY pList)
 //-----------------------------------------------------------------
 VOID HideModule(VOID)
 {
-	LDR_DATA_TABLE_ENTRY List;
-	*(DWORD64*)&List = 0;
+	PLIST_ENTRY pUserModule = NULL;
+	PPEB_LDR_DATA_ pLdrData = (PPEB_LDR_DATA_)(*((PTEB)__readgsqword(0x30))->ProcessEnvironmentBlock).Ldr;
 
-	for (DWORD i = 0; NextModule(CURRENT_PROCESS, &List) && i < 1; i++)
-	{
-		PLIST_ENTRY pUserModule = NULL;
-		PPEB_LDR_DATA_ pLdrData = (PPEB_LDR_DATA_)(*((PTEB)__readgsqword(0x30))->ProcessEnvironmentBlock).Ldr;
+	pUserModule = pLdrData->InLoadOrderModuleList.Flink;
+	pUserModule->Blink->Flink = pUserModule->Flink;
+	pUserModule->Flink->Blink = pUserModule->Blink;
 
-		pUserModule = pLdrData->InLoadOrderModuleList.Flink;
-		pUserModule->Blink->Flink = pUserModule->Flink;
-		pUserModule->Flink->Blink = pUserModule->Blink;
+	pUserModule = pLdrData->InMemoryOrderModuleList.Flink;
+	pUserModule->Blink->Flink = pUserModule->Flink;
+	pUserModule->Flink->Blink = pUserModule->Blink;
 
-		pUserModule = pLdrData->InMemoryOrderModuleList.Flink;
-		pUserModule->Blink->Flink = pUserModule->Flink;
-		pUserModule->Flink->Blink = pUserModule->Blink;
-
-		pUserModule = pLdrData->InInitializationOrderModuleList.Flink;
-		pUserModule->Blink->Flink = pUserModule->Flink;
-		pUserModule->Flink->Blink = pUserModule->Blink;
-	}
+	pUserModule = pLdrData->InInitializationOrderModuleList.Flink;
+	pUserModule->Blink->Flink = pUserModule->Flink;
+	pUserModule->Flink->Blink = pUserModule->Blink;
 }
 
 
@@ -133,6 +127,7 @@ HMODULE myGetModuleHandleEx(HANDLE hProcess, CONST WCHAR* ModulePath)
 			return *(HMODULE*)((DWORD64)&List + 0x20);
 
 		WCHAR ModuleName[MAX_PATH];
+		ModuleName[0] = '\0';
 
 		if (hProcess == CURRENT_PROCESS)	
 			mywcscpy(ModuleName, List.FullDllName.Buffer);
@@ -297,6 +292,15 @@ VOID Report(HANDLE hProcess, DWORD ErrorFlag, REBIRTHGUARD_REPORT_CODE ErrorCode
 		mystrcat(path, "\"");
 
 		((_WinExec)APICall(kernel32, APICall_WinExec))(path, SW_SHOW);
+	}
+
+	// Free memory
+	if (ErrorFlag & _MEM_FREE)
+	{
+		DWORD64 Size = NULL;
+		PVOID Address = ErrorAddress;
+		((_NtFreeVirtualMemory)APICall(ntdll, APICall_NtFreeVirtualMemory))(hProcess, &Address, &Size, MEM_RELEASE);
+		((_NtFreeVirtualMemory)APICall(ntdll, APICall_NtFreeVirtualMemory))(hProcess, &Address, &Size, MEM_RELEASE | MEM_DECOMMIT);
 	}
 
 	// Terminate process
