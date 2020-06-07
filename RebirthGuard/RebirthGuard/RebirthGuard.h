@@ -238,7 +238,7 @@ VOID					Initialze			(VOID);
 PVOID					GetPEHeader			(HANDLE hProcess, PVOID ModuleBase);
 WCHAR*					GetModulePath		(DWORD ModuleIndex);
 PVOID					NextModule			(HANDLE hProcess, PLDR_DATA_TABLE_ENTRY pList);
-VOID					HideModule			(VOID);
+VOID					HideModuleList		(VOID);
 HMODULE					myGetModuleHandleEx	(HANDLE hProcess, CONST WCHAR* ModulePath);
 FARPROC					myGetProcAddress	(HMODULE hModule, LPCSTR lpProcName);
 FARPROC					APICall				(DWORD ModuleIndex, APICall_Number API);

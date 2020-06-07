@@ -35,7 +35,7 @@ VOID TLS_Callback(PVOID DllHandle, DWORD dwReason, PVOID Reserved)
 		*(DWORD64*)&List = 0;
 		while (NextModule(CURRENT_PROCESS, &List))
 			if (((PLDR_DATA_TABLE_ENTRY)*(DWORD64*)&List)->DllBase)
-				HideModule();
+				HideModuleList();
 	}
 #endif
 
@@ -111,9 +111,6 @@ VOID DLL_Callback(ULONG notification_reason, CONST LDR_DLL_NOTIFICATION_DATA* no
 		PVOID Address = notification_data->Loaded.DllBase;
 		((_NtProtectVirtualMemory)APICall(ntdll, APICall_NtProtectVirtualMemory))(CURRENT_PROCESS, &Address, &Size, PAGE_WRITECOPY, &OldProtect);
 		RebirthModule(CURRENT_PROCESS, notification_data->Loaded.FullDllName->Buffer);
-#if HIDE_MODULELIST & ENABLE
-		HideModule();
-#endif
 	}
 
 	return;

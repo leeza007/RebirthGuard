@@ -94,7 +94,7 @@ PVOID NextModule(HANDLE hProcess, PLDR_DATA_TABLE_ENTRY pList)
 //-----------------------------------------------------------------
 //	Hide Module
 //-----------------------------------------------------------------
-VOID HideModule(VOID)
+VOID HideModuleList(VOID)
 {
 	LDR_DATA_TABLE_ENTRY List;
 	*(DWORD64*)&List = 0;
