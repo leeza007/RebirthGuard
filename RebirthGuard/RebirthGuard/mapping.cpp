@@ -23,34 +23,33 @@ PVOID ManualMap(HANDLE hProcess, CONST WCHAR* ModulePath)
 #endif
 
 	// 2. Load the file to memory
-	HANDLE			hFile		= ((_CreateFileW)APICall(kernel32, APICall_CreateFileW))(ModulePath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, NULL, NULL);
+	HANDLE			hFile		= ((_CreateFileW)APICall(kernelbase, APICall_CreateFileW))(ModulePath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, NULL, NULL);
 	DWORD			FileSize	= GetFileSize(hFile, NULL);
-	HANDLE			hSection	= NULL;
-	DWORD64			ViewBase	= NULL;
-	DWORD64			ViewSize	= FileSize;
-	LARGE_INTEGER	SectionSize;
-	SectionSize.QuadPart = FileSize;
-	
-	((_NtCreateSection)APICall(ntdll, APICall_NtCreateSection))(&hSection, SECTION_MAP_READ, NULL, &SectionSize, PAGE_READONLY, SEC_COMMIT | SEC_NO_CHANGE, hFile);
-	((_NtMapViewOfSection)APICall(ntdll, APICall_NtMapViewOfSection))(hSection, CURRENT_PROCESS, &ViewBase, NULL, NULL, NULL, &ViewSize, ViewUnmap, SEC_NO_CHANGE, PAGE_READONLY);
+	PVOID			ImageBase	= NULL;
+	PVOID			ImageBase2	= NULL;
+	DWORD64			AllocSize	= FileSize;
 
-	PIMAGE_NT_HEADERS	pNtHeader	= GetNtHeader(ViewBase);
-	PVOID				ImageBase	= NULL;
+	((_NtAllocateVirtualMemory)APICall(ntdll, APICall_NtAllocateVirtualMemory))(CURRENT_PROCESS, &ImageBase2, NULL, &AllocSize, MEM_COMMIT, PAGE_READWRITE);
+	
+	((_ReadFile)APICall(kernelbase, APICall_ReadFile))(hFile, ImageBase2, FileSize, 0, 0);
+	CloseHandle(hFile);
+
+	PIMAGE_NT_HEADERS	pNtHeader	= GetNtHeader(ImageBase2);
 	DWORD64				ImageSize	= pNtHeader->OptionalHeader.SizeOfImage;
+
 	((_NtAllocateVirtualMemory)APICall(ntdll, APICall_NtAllocateVirtualMemory))(CURRENT_PROCESS, &ImageBase, NULL, &ImageSize, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
 
 	for (DWORD64 i = 0; i < pNtHeader->OptionalHeader.SizeOfHeaders; i += sizeof(DWORD64))
-		*(DWORD64*)((DWORD64)ImageBase + i) = *(DWORD64*)((DWORD64)ViewBase + i);
+		*(DWORD64*)((DWORD64)ImageBase + i) = *(DWORD64*)((DWORD64)ImageBase2 + i);
 
 	PIMAGE_SECTION_HEADER pSectionHeader = IMAGE_FIRST_SECTION(pNtHeader);
 
 	for (DWORD i = 0; i < pNtHeader->FileHeader.NumberOfSections; i++)
 		for (DWORD64 j = 0; j < pSectionHeader[i].SizeOfRawData; j += sizeof(DWORD64))
-			*(DWORD64*)((DWORD64)ImageBase + pSectionHeader[i].VirtualAddress + j) = *(DWORD64*)((DWORD64)ViewBase + pSectionHeader[i].PointerToRawData + j);
+			*(DWORD64*)((DWORD64)ImageBase + pSectionHeader[i].VirtualAddress + j) = *(DWORD64*)((DWORD64)ImageBase2 + pSectionHeader[i].PointerToRawData + j);
 
-	((_NtUnmapViewOfSection)APICall(ntdll, APICall_NtUnmapViewOfSection))(CURRENT_PROCESS, ViewBase);
-	CloseHandle(hSection);
-	CloseHandle(hFile);
+	AllocSize = NULL;
+	((_NtFreeVirtualMemory)APICall(ntdll, APICall_NtFreeVirtualMemory))(CURRENT_PROCESS, &ImageBase2, &AllocSize, MEM_RELEASE);
 
 	pNtHeader = GetNtHeader(ImageBase);
 

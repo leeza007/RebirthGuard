@@ -143,6 +143,7 @@ typedef NTSTATUS	(NTAPI* _NtDuplicateObject)					(HANDLE, HANDLE, HANDLE, PHANDL
 typedef HMODULE		(WINAPI* _LoadLibraryW)						(LPCWSTR);
 typedef BOOL		(WINAPI* _CreateProcessW)					(LPCWSTR, LPWSTR, LPSECURITY_ATTRIBUTES, LPSECURITY_ATTRIBUTES, BOOL, DWORD, LPVOID, LPCWSTR, LPSTARTUPINFOW, LPPROCESS_INFORMATION);
 typedef HANDLE		(WINAPI* _CreateFileW)						(LPCWSTR, DWORD, DWORD, LPSECURITY_ATTRIBUTES, DWORD, DWORD, HANDLE);
+typedef BOOL		(WINAPI* _ReadFile)							(HANDLE, LPVOID, DWORD, LPDWORD, LPOVERLAPPED);
 typedef UINT		(WINAPI* _WinExec)							(LPCSTR, UINT);
 
 
@@ -182,6 +183,7 @@ enum APICall_Number
 	APICall_LdrLoadDll,
 	APICall_CreateProcessW,
 	APICall_CreateFileW,
+	APICall_ReadFile,
 	APICall_WinExec,
 };
 

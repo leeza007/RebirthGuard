@@ -390,48 +390,44 @@ DWORD GetFileCheckSum(CONST WCHAR* ModulePath)
 {
 	DWORD CheckSum = 0;
 
-	HANDLE hFile = ((_CreateFileW)APICall(kernel32, APICall_CreateFileW))(ModulePath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, NULL, NULL);
+	HANDLE hFile = ((_CreateFileW)APICall(kernelbase, APICall_CreateFileW))(ModulePath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, NULL, NULL);
 
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
-		DWORD			FileSize = GetFileSize(hFile, NULL);
-		HANDLE			hSection = NULL;
-		DWORD64			ViewBase = NULL;
-		DWORD64			ViewSize = FileSize;
-		LARGE_INTEGER	SectionSize;
-		SectionSize.QuadPart = FileSize;
+		DWORD			FileSize	= GetFileSize(hFile, NULL);
+		PVOID			ImageBase	= NULL;
+		DWORD64			AllocSize	= FileSize;
 
-		((_NtCreateSection)APICall(ntdll, APICall_NtCreateSection))(&hSection, SECTION_MAP_READ, NULL, &SectionSize, PAGE_READONLY, SEC_COMMIT | SEC_NO_CHANGE, hFile);
-		((_NtMapViewOfSection)APICall(ntdll, APICall_NtMapViewOfSection))(hSection, CURRENT_PROCESS, &ViewBase, NULL, NULL, NULL, &ViewSize, ViewUnmap, SEC_NO_CHANGE, PAGE_READONLY);
+		((_NtAllocateVirtualMemory)APICall(ntdll, APICall_NtAllocateVirtualMemory))(CURRENT_PROCESS, &ImageBase, NULL, &AllocSize, MEM_COMMIT, PAGE_READWRITE);
+		((_ReadFile)APICall(kernelbase, APICall_ReadFile))(hFile, ImageBase, FileSize, NULL, NULL);
+		CloseHandle(hFile);
 
 		PVOID RemainData;
 		INT RemainDataSize;
 		DWORD64 PeHeaderSize;
 		DWORD PeHeaderCheckSum;
 		DWORD FileCheckSum;
-		PIMAGE_NT_HEADERS pNtHeader = GetNtHeader(ViewBase);
+		PIMAGE_NT_HEADERS pNtHeader = GetNtHeader(ImageBase);
 
 		if (pNtHeader)
 		{
-			PeHeaderSize = (DWORD64)pNtHeader - (DWORD64)ViewBase + ((DWORD64)&pNtHeader->OptionalHeader.CheckSum - (DWORD64)pNtHeader);
+			PeHeaderSize = (DWORD64)pNtHeader - (DWORD64)ImageBase + ((DWORD64)&pNtHeader->OptionalHeader.CheckSum - (DWORD64)pNtHeader);
 			RemainDataSize = (INT)((FileSize - PeHeaderSize - 4) >> 1);
 			RemainData = &pNtHeader->OptionalHeader.Subsystem;
-			PeHeaderCheckSum = CalculateCheckSum(0, (PVOID)ViewBase, (INT)PeHeaderSize >> 1);
+			PeHeaderCheckSum = CalculateCheckSum(0, (PVOID)ImageBase, (INT)PeHeaderSize >> 1);
 			FileCheckSum = CalculateCheckSum(PeHeaderCheckSum, RemainData, RemainDataSize);
 
 			if (FileSize & 1)
-				FileCheckSum += (WORD)*((CHAR*)ViewBase + FileSize - 1);
+				FileCheckSum += (WORD)*((CHAR*)ImageBase + FileSize - 1);
 		}
 		else
 			FileCheckSum = 0;
 
 		CheckSum = FileSize + FileCheckSum;
 
-		((_NtUnmapViewOfSection)APICall(ntdll, APICall_NtUnmapViewOfSection))(CURRENT_PROCESS, ViewBase);
-		CloseHandle(hSection);
+		AllocSize = NULL;
+		((_NtFreeVirtualMemory)APICall(ntdll, APICall_NtFreeVirtualMemory))(CURRENT_PROCESS, &ImageBase, &AllocSize, MEM_RELEASE);
 	}
-
-	CloseHandle(hFile);
 
 	return CheckSum;
 }
