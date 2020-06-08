@@ -24,7 +24,7 @@
     <ProjectGuid>{4D594C03-40A6-4F9E-86B3-8AAAC329F33A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>RebirthGuard</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
