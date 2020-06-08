@@ -94,17 +94,9 @@ PVOID NextModule(HANDLE hProcess, PLDR_DATA_TABLE_ENTRY pList)
 //-----------------------------------------------------------------
 //	Hide Module
 //-----------------------------------------------------------------
-VOID HideModuleList(VOID)
+VOID HideModule(VOID)
 {
-	LDR_DATA_TABLE_ENTRY List;
-	*(DWORD64*)&List = 0;
-	while (NextModule(CURRENT_PROCESS, &List))
-		if (((PLDR_DATA_TABLE_ENTRY)*(DWORD64*)&List)->DllBase == NULL)
-			break;
-
 	PPEB_LDR_DATA_ pLdrData = (PPEB_LDR_DATA_)(*((PTEB)__readgsqword(0x30))->ProcessEnvironmentBlock).Ldr;
-
-	*(DWORD64*)(*(DWORD64*)&List) = (DWORD64)pLdrData->InLoadOrderModuleList.Flink;
 
 	PLIST_ENTRY pUserModule = NULL;
 	pUserModule = pLdrData->InLoadOrderModuleList.Flink;
@@ -242,7 +234,7 @@ VOID Report(HANDLE hProcess, DWORD ErrorFlag, REBIRTHGUARD_REPORT_CODE ErrorCode
 		}
 		if (order2 == i)
 		{
-			mywcscpy(ModuleName2, Buffer);
+			mywcscpy(ModuleName2, Buffer2);
 			mywcscat(ModuleName2, L" + ");
 			mywcscpy(ModulePath2, Buffer2);
 		}

@@ -33,9 +33,8 @@ VOID TLS_Callback(PVOID DllHandle, DWORD dwReason, PVOID Reserved)
 
 		LDR_DATA_TABLE_ENTRY List;
 		*(DWORD64*)&List = 0;
-		while (NextModule(CURRENT_PROCESS, &List))
-			if (((PLDR_DATA_TABLE_ENTRY)*(DWORD64*)&List)->DllBase)
-				HideModuleList();
+		while (NextModule(CURRENT_PROCESS, &List) && ((PLDR_DATA_TABLE_ENTRY)*(DWORD64*)&List)->DllBase)
+			HideModule();
 	}
 #endif
 
