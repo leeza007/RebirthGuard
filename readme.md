@@ -15,8 +15,6 @@ In this project, *__Rebirth__* means *Section remap* and *Force page protection*
 * Visual Studio 2017 Community
 * Windows 10 SDK 10.0.15063.0
 
-## :bulb: Motivation
-PUBG Anti-cheat : Xenuine 
 
 ## :page_facing_up: Capabilities
 * __Module remapping__ (Force page protection)
