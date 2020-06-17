@@ -4,9 +4,9 @@
 
 __RebirthGuard__ is a User-mode (ring 3) library written on C.
 
-This library is based on *__Section remapping__* and *__Manual mapping__* technique, and designed *__callback-based__* (Asynchronous).
+This library is based on *__Section remapping__* and *__Manual mapping__* technique, and designed *__callback-based__*.
 
-Certain functions need to be called when needed (Synchronous) : `MemCheck`, `CRCCheck` 
+Certain functions need to be called when needed : `MemCheck`, `CRCCheck` 
 
 In this project, *__Rebirth__* means *Section remap* and *Force page protection*.
 
